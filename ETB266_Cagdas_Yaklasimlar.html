@@ -3,184 +3,156 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ETB266 · Tasarımda Çağdaş Yaklaşımlar</title>
+<title>ETB266 · Kaynak Erişim Paneli</title>
 <style>
 :root{
-  --paper:#EFF0EC;
-  --card:#FFFFFF;
-  --ink:#14181A;
-  --ink2:#3B4348;
-  --mute:#767E82;
-  --rule:#C9CEC8;
-  --rule2:#DCE0DA;
-  --acik:#2F6B4F;
-  --ekual:#2C5A82;
-  --satin:#B04A24;
-  --kurum:#8A6A1F;
-  --disp:"Avenir Next","Futura","Helvetica Neue",Helvetica,sans-serif;
-  --body:"Charter","Iowan Old Style",Georgia,"Times New Roman",serif;
-  --mono:"Menlo","SF Mono",Consolas,monospace;
+  /* ETB231 ders paleti (H04 sunumundan) */
+  --butter:#FFED9E; --twilight:#426BC2; --leaves:#4A9166; --sky:#A6CFF2;
+  --blossom:#F2C0CA; --forest:#124224; --cloud:#F7F2E8; --apple:#A6BA1A;
+  --paper:#FFFFFF; --ink:#1A1A1A; --mute:#6B6B6B; --rule:#D9D3C4;
+  --disp:"Bookman Old Style","Bookman","URW Bookman","Bookman URW",Georgia,serif;
+  --body:Calibri,Carlito,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --mono:"Courier New",Courier,"Liberation Mono",monospace;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{
-  margin:0;background:var(--paper);color:var(--ink);
-  font-family:var(--body);font-size:16px;line-height:1.55;
-}
-.wrap{max-width:1080px;margin:0 auto;padding:0 22px 90px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px 80px}
 
-/* ── başlık ── */
-header{padding:46px 0 26px;border-bottom:2px solid var(--ink)}
-.eyebrow{
-  font-family:var(--mono);font-size:11px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--satin);margin:0 0 12px
-}
-h1{
-  font-family:var(--disp);font-weight:600;font-size:clamp(30px,5vw,44px);
-  letter-spacing:-.02em;margin:0 0 10px;line-height:1.08
-}
-.sub{font-size:17px;color:var(--ink2);margin:0;max-width:62ch}
-
-/* ── uyarı ── */
-.notice{
-  margin:26px 0 0;padding:20px 22px;background:var(--card);
-  border-left:3px solid var(--satin)
-}
-.notice h2{
-  font-family:var(--disp);font-size:14px;font-weight:600;letter-spacing:.02em;
-  margin:0 0 9px;text-transform:uppercase
-}
-.notice p{margin:0 0 9px;font-size:15px;color:var(--ink2)}
-.notice p:last-child{margin-bottom:0}
-
-/* ── sekmeler ── */
-.tabs{
-  position:sticky;top:0;z-index:20;background:var(--paper);
-  display:flex;gap:0;margin-top:30px;border-bottom:2px solid var(--ink)
-}
-button.tab{
-  font-family:var(--disp);font-size:14px;font-weight:600;letter-spacing:.01em;
-  padding:12px 18px;border:none;background:transparent;color:var(--mute);
-  cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:.13s
-}
-button.tab:hover{color:var(--ink2)}
-button.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--satin)}
-.panel[hidden]{display:none}
-
-/* ── bulgu şeridi ── */
-.finds{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0 0}
-@media(max-width:720px){.finds{grid-template-columns:1fr}}
-.find{background:var(--card);padding:18px 20px;border-top:3px solid var(--acik)}
-.find.b{border-top-color:var(--ekual)}
-.find .tag{
-  font-family:var(--mono);font-size:10px;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--acik);display:block;margin-bottom:7px
-}
-.find.b .tag{color:var(--ekual)}
-.find h3{font-family:var(--disp);font-size:16px;font-weight:600;margin:0 0 7px}
-.find p{margin:0;font-size:14.5px;color:var(--ink2)}
-
-/* ── künye tablosu ── */
-h2.sec{
-  font-family:var(--disp);font-size:20px;font-weight:600;margin:34px 0 4px;
-  padding-bottom:8px;border-bottom:1px solid var(--rule)
-}
-h2.sec:first-of-type{margin-top:26px}
-p.lede{font-size:15.5px;color:var(--ink2);margin:12px 0 16px;max-width:74ch}
-table.meta{width:100%;border-collapse:collapse;background:var(--card);margin:16px 0 0}
-table.meta td{padding:10px 14px;border-bottom:1px solid var(--rule2);font-size:15px;vertical-align:top}
-table.meta td:first-child{
+/* ── başlık: kicker + Bookman + damga kutusu + kayıt işaretleri ── */
+header{position:relative;padding:44px 0 24px;border-bottom:1px solid var(--forest)}
+header .reg{position:absolute;font-family:var(--mono);font-size:15px;line-height:1;color:var(--forest)}
+header .reg.tl{left:-14px;top:10px} header .reg.tr{right:-14px;top:10px}
+header .reg.bl{left:-14px;bottom:-9px} header .reg.br{right:-14px;bottom:-9px}
+.stamp{
+  position:absolute;right:0;top:18px;border:1px solid var(--forest);background:#fff;
   font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--mute);width:210px;white-space:nowrap
+  color:var(--forest);padding:6px 16px;white-space:nowrap
 }
-table.meta tr:last-child td{border-bottom:none}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--twilight);margin:0 0 14px}
+h1{font-family:var(--disp);font-weight:700;font-size:clamp(28px,4.6vw,40px);letter-spacing:-.01em;line-height:1.15;color:var(--forest);margin:0 0 12px}
+.sub{font-size:18px;font-weight:700;color:var(--ink);margin:0;max-width:62ch;line-height:1.4}
 
-/* ── çıktı listesi ── */
-ol.out{margin:14px 0 0;padding-left:22px}
-ol.out li{margin-bottom:9px;font-size:15.5px;color:var(--ink2)}
-ol.out li b{color:var(--ink);font-weight:600}
+/* ── iki kutu motifi: dolu kutu + kesik çizgili kutu ── */
+.rule-box{margin:14px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:760px){.rule-box{grid-template-columns:1fr}}
+.rule-item{padding:16px 18px;border:1px solid var(--forest)}
+.rule-item.a{background:var(--sky)} .rule-item.r{background:var(--butter)} .rule-item.v{background:var(--blossom)}
+.rule-item b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--forest);margin-bottom:7px}
+.rule-item p{margin:0;font-size:14px;color:var(--ink)}
 
-/* ── versiyon kartları ── */
+.finds{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0 0}
+@media(max-width:820px){.finds{grid-template-columns:1fr}}
+.find{background:var(--cloud);border:1px solid var(--forest);padding:16px 18px}
+.find.pol{background:#fff;border:1px dashed var(--forest)}
+.find .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--twilight);display:block;margin-bottom:8px}
+.find h3{font-family:var(--disp);font-size:15.5px;font-weight:700;color:var(--forest);margin:0 0 6px;line-height:1.3}
+.find p{margin:0;font-size:14px;color:var(--ink)}
 
-/* ── hafta kartları ── */
-.item{
-  display:grid;grid-template-columns:64px 1fr;gap:0;
-  background:var(--card);border-bottom:1px solid var(--rule2)
+/* ── haftalık program: sert köşeli tablo ── */
+.schedule{margin-top:36px}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--twilight);margin:0 0 6px}
+.schedule h2,.tools h2{font-family:var(--disp);font-weight:700;font-size:24px;color:var(--forest);margin:0 0 6px;line-height:1.2}
+.schedule .note,.tools .note{font-size:14.5px;color:var(--mute);margin:0 0 14px;max-width:70ch}
+.sched-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--forest)}
+.sched-table th{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  text-align:left;padding:9px 12px;background:var(--forest);color:#fff;font-weight:700
 }
-.spine{
-  font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;
-  padding:17px 0 17px 16px;color:var(--mute);border-right:1px solid var(--rule2)
-}
-.spine b{display:block;color:var(--ink);font-size:12px;font-weight:600}
-.meat{padding:15px 18px 16px}
-.head{display:flex;gap:11px;align-items:baseline;flex-wrap:wrap;margin-bottom:5px}
-.title{font-family:var(--disp);font-size:16.5px;font-weight:600;line-height:1.3;margin:0}
-.chip{
-  font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
-  padding:2.5px 7px;color:#fff;border-radius:2px;flex-shrink:0;white-space:nowrap
-}
-.chip.acik{background:var(--acik)}
-.chip.ekual{background:var(--ekual)}
-.chip.satin{background:var(--satin)}
-.chip.kurum{background:var(--kurum)}
-.chip.ghost{background:transparent;color:var(--mute);border:1px solid var(--rule)}
-.by{font-size:14px;color:var(--mute);margin:0 0 7px;font-style:italic}
-.route{font-size:14.5px;color:var(--ink2);margin:0 0 9px}
-.route b{font-weight:600;color:var(--ink)}
-.route .lab{
-  font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--mute);display:block;margin-bottom:3px
-}
-a.go{
-  font-family:var(--mono);font-size:11px;letter-spacing:.05em;
-  color:var(--ink);text-decoration:none;border-bottom:1.5px solid var(--rule);
-  padding-bottom:1px;word-break:break-all
-}
-a.go:hover{border-color:var(--satin);color:var(--satin)}
-.empty{padding:44px 8px;color:var(--mute);font-style:italic}
+.sched-row{cursor:pointer;border-top:1px solid var(--forest);background:var(--cloud)}
+.sched-row:nth-child(even){background:#fff}
+.sched-row:hover{background:var(--sky)}
+.sched-row.active{background:var(--butter)}
+.sched-row td{padding:10px 12px;vertical-align:top;font-size:14px}
+.sched-row .wk{font-family:var(--mono);font-size:12px;font-weight:700;white-space:nowrap;color:var(--forest)}
+.sched-row .topic{font-weight:700;color:var(--ink)}
+.sched-row .kazanim{color:var(--ink);font-size:13.5px}
 
-/* ── filtreler ── */
-.controls{
-  position:sticky;top:47px;z-index:10;background:var(--paper);
-  padding:18px 0 14px;border-bottom:1px solid var(--rule);margin-top:26px
-}
+/* ── filtre çubuğu ── */
+.controls{position:sticky;top:0;z-index:10;background:#fff;padding:16px 0 12px;border-bottom:1px solid var(--forest);margin-top:36px}
 .row{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:9px}
 .row:last-child{margin-bottom:0}
-.lbl{
-  font-family:var(--mono);font-size:10px;letter-spacing:.13em;
-  text-transform:uppercase;color:var(--mute);width:74px;flex-shrink:0
-}
+.lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--forest);font-weight:700;width:74px;flex-shrink:0}
 button.f{
-  font-family:var(--mono);font-size:11px;letter-spacing:.05em;
-  padding:5px 11px;border:1px solid var(--rule);background:transparent;
-  color:var(--ink2);cursor:pointer;border-radius:2px;transition:.13s
+  font-family:var(--mono);font-size:11px;letter-spacing:.04em;padding:5px 11px;
+  border:1px solid var(--forest);background:#fff;color:var(--forest);cursor:pointer;border-radius:0
 }
-button.f:hover{border-color:var(--ink2)}
-button.f[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
-button.f.acik[aria-pressed="true"]{background:var(--acik);border-color:var(--acik)}
-button.f.ekual[aria-pressed="true"]{background:var(--ekual);border-color:var(--ekual)}
-button.f.satin[aria-pressed="true"]{background:var(--satin);border-color:var(--satin)}
-button.f.kurum[aria-pressed="true"]{background:var(--kurum);border-color:var(--kurum)}
-input.q{
-  flex:1;min-width:190px;font-family:var(--body);font-size:15px;
-  padding:6px 11px;border:1px solid var(--rule);background:var(--card);
-  color:var(--ink);border-radius:2px
-}
-input.q:focus{outline:2px solid var(--ekual);outline-offset:1px}
+button.f:hover{background:var(--cloud)}
+button.f[aria-pressed="true"]{background:var(--forest);color:#fff}
+button.f.acik[aria-pressed="true"]{background:var(--apple);color:var(--forest);font-weight:700}
+button.f.ekual[aria-pressed="true"]{background:var(--twilight);color:#fff}
+button.f.satin[aria-pressed="true"]{background:var(--forest);color:#fff}
+button.f.standart[aria-pressed="true"]{background:var(--cloud);color:var(--forest);border-style:dashed;font-weight:700;box-shadow:inset 0 0 0 1px var(--forest)}
+button.f.kA[aria-pressed="true"]{background:var(--sky);color:var(--forest);font-weight:700}
+button.f.kR[aria-pressed="true"]{background:var(--butter);color:var(--forest);font-weight:700}
+button.f.kV[aria-pressed="true"]{background:var(--blossom);color:var(--forest);font-weight:700}
+input#q{flex:1;min-width:190px;font-family:var(--body);font-size:15px;padding:6px 11px;border:1px solid var(--forest);background:#fff;color:var(--ink);border-radius:0}
+input#q:focus{outline:2px solid var(--twilight);outline-offset:1px}
 .count{font-family:var(--mono);font-size:11px;color:var(--mute);padding-top:8px}
-.list{margin-top:8px}
 
-/* ── alt ── */
-footer{margin-top:44px;padding-top:22px;border-top:2px solid var(--ink);font-size:14px;color:var(--mute)}
-footer b{color:var(--ink2)}
-.disclosure{margin-top:18px;padding:12px 16px;border:1px dashed var(--rule);background:var(--card);font-size:13.5px;color:var(--ink2)}
+/* ── kaynak listesi: veri sayfası satırları ── */
+.list{margin-top:14px}
+.item{display:grid;grid-template-columns:112px 1fr;background:#fff;border:1px solid var(--forest);margin-top:-1px}
+.spine{font-family:var(--mono);font-size:10.5px;letter-spacing:.03em;padding:14px 8px 14px 12px;color:var(--mute);background:var(--cloud);border-right:1px solid var(--forest)}
+.spine b{display:block;color:var(--forest);font-size:12px;font-weight:700;margin-bottom:2px}
+.meat{padding:13px 18px 15px}
+.head{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;margin-bottom:5px}
+.title{font-family:var(--disp);font-size:16px;font-weight:700;color:var(--forest);line-height:1.3;margin:0}
+.chip,.kchip{
+  font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:2px 7px;border:1px solid var(--forest);color:var(--forest);border-radius:0;flex-shrink:0;white-space:nowrap
+}
+.chip.acik{background:var(--apple)}
+.chip.ekual{background:var(--twilight);color:#fff}
+.chip.satin{background:var(--forest);color:#fff}
+.chip.standart{background:var(--cloud);border-style:dashed}
+.kchip.akademik{background:var(--sky)}
+.kchip.resmi{background:var(--butter)}
+.kchip.vaka{background:var(--blossom)}
+.by{font-family:var(--mono);font-size:12px;color:var(--mute);margin:0 0 7px;font-style:italic}
+.route{font-size:14.5px;color:var(--ink);margin:0 0 9px}
+.route b{font-weight:700;color:var(--forest)}
+a.go{font-family:var(--mono);font-size:11px;color:var(--twilight);text-decoration:none;border-bottom:1px solid var(--twilight);padding-bottom:1px;word-break:break-all}
+a.go:hover{background:var(--butter);color:var(--forest);border-color:var(--forest)}
+.empty{padding:40px 8px;color:var(--mute);font-family:var(--mono);font-size:13px}
+
+/* ── ders hakkında ── */
+.about{margin-top:30px}
+.about h2{font-family:var(--disp);font-weight:700;font-size:24px;color:var(--forest);margin:0 0 6px;line-height:1.2}
+.about p:not(.kicker){font-size:15px;margin:0 0 10px;max-width:78ch}
+.about ol{margin:0 0 10px;padding-left:22px;font-size:14.5px;max-width:78ch}
+.about ol li{margin-bottom:4px}
+.about .facts{font-family:var(--mono);font-size:11.5px;color:var(--mute);margin:8px 0 0}
+.lab{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:6px 0 2px}
+
+/* ── araçlar ── */
+.tools{margin-top:44px}
+.tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:820px){.tool-grid{grid-template-columns:1fr}}
+.tool{background:#fff;border:1px solid var(--forest);padding:16px 18px}
+.tool h3{font-family:var(--disp);font-size:15px;font-weight:700;color:var(--forest);margin:0 0 6px}
+.tool p{font-size:13.5px;color:var(--ink);margin:0 0 8px}
+.tool a{font-family:var(--mono);font-size:10.5px;color:var(--twilight);word-break:break-all}
+
+/* ── altbilgi: KAYNAK etiketi ── */
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);font-size:13.5px;color:var(--ink)}
+footer p{margin:0 0 8px}
+footer b{color:var(--forest)}
+.src-line{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:20px;padding-top:10px;border-top:1px solid var(--rule);font-family:var(--mono);font-size:10.5px;color:var(--mute)}
+.src-line b{color:var(--forest);letter-spacing:.14em;margin-right:8px}
+.src-line i{font-style:italic}
+.disclosure{margin-top:18px;padding:12px 16px;border:1px dashed var(--forest);background:var(--cloud);font-size:13px;color:var(--ink)}
 .disclosure p{margin:0 0 6px}
 .disclosure p:last-child{margin-bottom:0}
-@media print{
-  .controls,.tabs{position:static}
-  button.f,button.tab{display:none}
-  .panel[hidden]{display:block}
-  .item{break-inside:avoid}
+@media print{.controls{position:static} button.f{display:none} .item{break-inside:avoid} .stamp{position:static;display:inline-block;margin-bottom:10px}}
+@media(max-width:720px){
+  .sched-table .hide-sm{display:none}
+  .stamp{position:static;display:inline-block;margin-bottom:14px}
+  header .reg{display:none}
+  .item{grid-template-columns:1fr}
+  .spine{border-right:0;border-bottom:1px solid var(--forest);display:flex;gap:10px;padding:8px 12px}
+  .spine b{margin:0}
+  .lbl{width:100%}
 }
 </style>
 </head>
@@ -188,471 +160,285 @@ footer b{color:var(--ink2)}
 <div class="wrap">
 
 <header>
-  <p class="eyebrow">ETB266 · Lisans Seçmeli · 3.–4. Sınıf · Güz 2026–2027</p>
-  <h1>Tasarımda Çağdaş Yaklaşımlar</h1>
-  <p class="sub">Ders programı, vaka havuzu ve kaynak erişim rotaları tek dosyada. Renk, kaynağın içeriğini değil <b>nasıl elde edileceğini</b> gösterir.</p>
+  <span class="reg tl">+</span><span class="reg tr">+</span><span class="reg bl">+</span><span class="reg br">+</span>
+  <div class="stamp">ETB266 / KAYNAK PANELİ</div>
+  <p class="eyebrow">ETB266 · Tasarımda Çağdaş Yaklaşımlar · Güz 2026–2027</p>
+  <h1>Kaynak Erişim Paneli</h1>
+  <p class="sub">Haftalık program, okumalar ve vakalar tek yerde. Bir haftaya tıklayın, o haftanın kaynakları aşağıda filtrelensin.</p>
 </header>
 
-<div class="notice">
-  <h2>Bu panel neden var</h2>
-  <p>Bu ders için geçerli tek kaynak türü <b>hakemli akademik makaleler ve akademik yayınevi kitaplarıdır.</b> Blog yazısı, haber sitesi, dernek/kurum web sayfası, düşünce kuruluşu raporu veya popüler-bilim kitabı — yazarı kim olursa olsun — çekirdek okuma listesine giremez. Bu kural yalnızca <b>haftalık zorunlu okumalar ve ders işleyişi</b> için geçerlidir.</p>
-  <p><b>Vaka havuzu ayrı tutulur:</b> gerçek dünya örneklerinin (proje siteleri, kurum arşivleri, haberler) belgelenmesi doğası gereği akademik değildir — bir tasarım stüdyosu kendi projesini dergide yayımlamaz. Vaka Havuzu sekmesindeki örnekler bu nedenle akademik saflık kuralının dışındadır; yalnızca <i>illüstrasyon</i> amacıyla kullanılır, akademik bilgi kaynağı olarak değil.</p>
+<div class="about">
+  <p class="kicker">Ders hakkında</p>
+  <h2>Amaç ve öğrenme çıktıları</h2>
+  <p>Ders, 1980 sonrası — ağırlıkla son 25 yılın — tasarım düşüncesini şekillendiren yaklaşımları, doğdukları toplumsal-teknolojik koşullarla birlikte ele alır. Her yaklaşım üç soruyla sınanır: <b>Hangi soruna yanıt olarak çıktı? Hangi varsayımlara dayanıyor ve bu varsayımlar nerede zorlanıyor? Türkiye bağlamında ve benim pratiğimde ne anlama geliyor?</b> Amaç akım ezberi değil, mezuniyet projesine taşınabilecek eleştirel bir konumlanmadır.</p>
+  <ol>
+    <li>Çağdaş yaklaşımları <b>kavramsal çerçeveleri, temel metinleri ve temsilci pratikleriyle</b> tanımlar ve birbirinden ayırt eder.</li>
+    <li>Bir tasarım ürününü, projesini veya söylemini <b>seçtiği kuramsal çerçeveyle çözümler</b> ve akademik yazım kurallarına uygun biçimde metinleştirir.</li>
+    <li>Yaklaşımların güçlü yönlerini ve eleştirilerini <b>kanıta dayalı</b> biçimde tartışır; karşıt konumu adil temsil eder.</li>
+    <li>Küresel tartışmaları <b>Türkiye ve yerel üretim-zanaat bağlamıyla</b> ilişkilendirir.</li>
+    <li>Kendi tasarım anlayışını çağdaş yaklaşımlar haritasında konumlandıran <b>özgün bir pozisyon</b> üretir ve savunur.</li>
+  </ol>
+  <p class="facts">Lisans 3.–4. sınıf, seçmeli · 3 yerel kredi / 5 AKTS · haftalık 3 saat · Ön koşul: Tasarım Tarihi önerilir, zorunlu değil · Türkçe, okumaların bir bölümü İngilizce · Haftada 40–60 sayfa okuma</p>
 </div>
 
-<div class="tabs" role="tablist">
-  <button class="tab" role="tab" data-p="syl" aria-selected="true">Syllabus</button>
-  <button class="tab" role="tab" data-p="vak" aria-selected="false">Vaka Havuzu</button>
-  <button class="tab" role="tab" data-p="kay" aria-selected="false">Kaynak Erişimi</button>
-</div>
-
-<!-- ══════════ SYLLABUS ══════════ -->
-<div class="panel" id="syl">
-
-<h2 class="sec">Ders künyesi</h2>
-<table class="meta">
-  <tr><td>Ders adı</td><td>Tasarımda Çağdaş Yaklaşımlar / Contemporary Approaches in Design</td></tr>
-  <tr><td>Ders kodu</td><td>ETB266</td></tr>
-  <tr><td>Dönem</td><td>Güz 2026–2027 · Çarşamba</td></tr>
-  <tr><td>Seviye</td><td>Lisans 3.–4. sınıf, seçmeli</td></tr>
-  <tr><td>Kredi</td><td>3 yerel kredi / 5 AKTS · haftalık 3 saat</td></tr>
-  <tr><td>Ön koşul</td><td>Tasarım Tarihi önerilir, zorunlu değil</td></tr>
-  <tr><td>Dil</td><td>Türkçe · okumaların bir bölümü İngilizce</td></tr>
-  <tr><td>Okuma yükü</td><td>Haftada 40–60 sayfa</td></tr>
-</table>
-
-<h2 class="sec">Amaç ve öğrenme çıktıları</h2>
-<p class="lede">Ders, 1980 sonrası — ağırlıkla son 25 yılın — tasarım düşüncesini şekillendiren yaklaşımları, doğdukları toplumsal-teknolojik koşullarla birlikte ele alır. Her yaklaşım üç soruyla sınanır: <b>Hangi soruna yanıt olarak çıktı? Hangi varsayımlara dayanıyor ve bu varsayımlar nerede zorlanıyor? Türkiye bağlamında ve benim pratiğimde ne anlama geliyor?</b> Amaç akım ezberi değil, mezuniyet projesine taşınabilecek eleştirel bir konumlanmadır.</p>
-<ol class="out">
-  <li>Çağdaş yaklaşımları <b>kavramsal çerçeveleri, temel metinleri ve temsilci pratikleriyle</b> tanımlar ve birbirinden ayırt eder.</li>
-  <li>Bir tasarım ürününü, projesini veya söylemini <b>seçtiği kuramsal çerçeveyle çözümler</b> ve akademik yazım kurallarına uygun biçimde metinleştirir.</li>
-  <li>Yaklaşımların güçlü yönlerini ve eleştirilerini <b>kanıta dayalı</b> biçimde tartışır; karşıt konumu adil temsil eder.</li>
-  <li>Küresel tartışmaları <b>Türkiye ve yerel üretim-zanaat bağlamıyla</b> ilişkilendirir.</li>
-  <li>Kendi tasarım anlayışını çağdaş yaklaşımlar haritasında konumlandıran <b>özgün bir pozisyon</b> üretir ve savunur.</li>
-</ol>
-
-<h2 class="sec">Haftalık akış</h2>
-<p class="lede">Dersler çarşamba günleri yapılır. Hafta 1 giriş dersidir; içerik 13 haftaya yayılır.</p>
-<div class="controls">
-  <div class="row">
-    <span class="lbl">Ara</span>
-    <input class="q" id="qw" type="search" placeholder="hafta, tema, kavram…" autocomplete="off">
+<div class="finds" style="grid-template-columns:repeat(2,1fr)">
+  <div class="find">
+    <span class="tag">Erişim durumu</span>
+    <h3>EKUAL ulusal lisansı aktif</h3>
+    <p>Wiley ve Springer Nature anlaşmaları yürürlükte. GTÜ üyedir.</p>
   </div>
-  <div class="count" id="cw"></div>
+  <div class="find pol">
+    <span class="tag">Dönem takvimi</span>
+    <h3>14 hafta, gerçek tarihlerle eşlendi</h3>
+    <p>23 Eylül–23 Aralık 2026, tüm çarşambalar.</p>
+  </div>
 </div>
-<div class="list" id="lw"></div>
 
+<div class="schedule">
+  <p class="kicker">Ders akışı</p>
+  <h2>Haftalık Program</h2>
+  <p class="note">Konu ve alt başlıklar. Bir satıra tıklayınca aşağıdaki kaynak listesi o haftaya filtrelenir; tekrar tıklayınca filtre kalkar.</p>
+  <table class="sched-table">
+    <thead>
+      <tr>
+        <th style="width:120px">Hafta</th>
+        <th>Konu</th>
+        <th class="hide-sm">Alt başlıklar</th>
+      </tr>
+    </thead>
+    <tbody id="schedBody"></tbody>
+  </table>
 </div>
-
-<!-- ══════════ VAKA HAVUZU ══════════ -->
-<div class="panel" id="vak" hidden>
 
 <div class="controls">
   <div class="row">
-    <span class="lbl">Tema</span>
-    <span id="vt"></span>
+    <span class="lbl">Tür</span>
+    <button class="f kA" data-k="k" data-v="akademik" aria-pressed="false">Akademik</button>
+    <button class="f kV" data-k="k" data-v="vaka"     aria-pressed="false">Vaka</button>
   </div>
-  <div class="row">
-    <span class="lbl">Ara</span>
-    <input class="q" id="qv" type="search" placeholder="vaka, kurum, kavram…" autocomplete="off">
-  </div>
-  <div class="count" id="cv"></div>
-</div>
-<div class="list" id="lv"></div>
-
-<div class="notice" style="margin-top:26px">
-  <h2>Ortak analiz şablonu</h2>
-  <p>Her vaka sınıfta aynı beş adımla işlenir; bu, farklı vakaların karşılaştırılabilir kalmasını sağlar: <b>(1)</b> olgusal özet, <b>(2)</b> haftanın yaklaşımının uyguladığı mercek, <b>(3)</b> merceğin gösterdikleri, <b>(4)</b> merceğin gösteremedikleri, <b>(5)</b> Türkiye bağlamına çeviri.</p>
-</div>
-
-</div>
-
-<!-- ══════════ KAYNAK ERİŞİMİ ══════════ -->
-<div class="panel" id="kay" hidden>
-
-<div class="controls">
   <div class="row">
     <span class="lbl">Erişim</span>
     <button class="f acik"  data-k="s" data-v="acik"  aria-pressed="false">Açık · ücretsiz</button>
     <button class="f ekual" data-k="s" data-v="ekual" aria-pressed="false">EKUAL / kütüphane</button>
     <button class="f satin" data-k="s" data-v="satin" aria-pressed="false">Satın alma</button>
-    <button class="f kurum" data-k="s" data-v="kurum" aria-pressed="false">Kurum / vaka kaynağı</button>
   </div>
   <div class="row">
     <span class="lbl">Hafta</span>
-    <span id="kw"></span>
+    <span id="wk"></span>
   </div>
   <div class="row">
     <span class="lbl">Ara</span>
-    <input class="q" id="qk" type="search" placeholder="yazar, başlık, kurum…" autocomplete="off">
+    <input id="q" type="search" placeholder="yazar, başlık, vaka, kavram…" autocomplete="off">
   </div>
-  <div class="count" id="ck"></div>
+  <div class="count" id="count"></div>
 </div>
-<div class="list" id="lk"></div>
 
-</div>
+<div class="list" id="list"></div>
 
 <footer>
   <p><b>Erişim yolları.</b> Kampüs ağı veya GTÜ VPN abonelikli içeriğin çoğunu açar. Açılmayan bir metin için sırayla: yazarın kurumsal deposu (TU Delft, CMU KiltHub, MIT DSpace) · Unpaywall veya OpenAlex · kütüphaneler arası ödünç · son çare olarak yazara doğrudan e-posta.</p>
+  <p><b>Vaka analizi şablonu.</b> Her vaka sınıfta aynı beş adımla işlenir; bu, farklı vakaların karşılaştırılabilir kalmasını sağlar: (1) olgusal özet, (2) haftanın yaklaşımının uyguladığı mercek, (3) merceğin gösterdikleri, (4) merceğin gösteremedikleri, (5) Türkiye bağlamına çeviri.</p>
   <div class="disclosure">
     <p><b>Hazırlayan:</b> Dr. Öğr. Üyesi Oğuzhan Güngör · Gebze Teknik Üniversitesi, Endüstriyel Tasarım Bölümü</p>
     <p><b>Yapay zekâ kullanımına ilişkin aydınlatma.</b> Bu dosya, Anthropic'in geliştirdiği yapay zekâ asistanı Claude kullanılarak hazırlanmıştır. Bu dosyadaki bilgilerin ve kaynakların kullanımı, dosyayı kullanan kişinin sorumluluğundadır.</p>
   </div>
+  <div class="src-line"><span><b>KAYNAK</b><i>ETB266 İzlencesi, 2026–2027 Güz</i></span><span>ETB266 · Kaynak Paneli</span></div>
 </footer>
 
 </div>
 
 <script>
-const S={acik:"Açık",ekual:"EKUAL",satin:"Satın",kurum:"Kurum"};
+const S={acik:"Açık",ekual:"EKUAL",satin:"Satın"};
+const K={akademik:"Akademik",vaka:"Vaka"};
 
-/* ═══════ HAFTALAR ═══════ */
-const W=[
-{n:"H1",dt:"23 Eyl",t:"Tanışma ve dönem planlaması",
- s:"Ders işlenmez. Tanışma · on dört haftanın haritası (beş tematik blok) · değerlendirme bileşenlerinin özeti · tartışma liderliği takviminin dağıtımı",
- r:"Okuma yok",
- only:true},
-{n:"H2",dt:"30 Eyl",t:'Giriş: "Çağdaş" nedir? Tasarım düşüncesinin haritası',
- s:"Modern–postmodern–çağdaş ayrımı · tasarımın genişleyen tanımı: ürün → hizmet → sistem → söylem · kötücül problemler (wicked problems) · dönemin panoraması",
- r:"Buchanan, “Wicked Problems in Design Thinking” (1992) · Norman &amp; Verganti, “Incremental and Radical Innovation” (2014)",
- v:"Vaka analizi yönteminin tanıtımı; beş adımlı şablonun örnek üzerinde işletilmesi"},
-{n:"H3",dt:"7 Eki",t:"Tasarım odaklı düşünme ve eleştirisi",
- s:"IDEO ve d.school modeli · design thinking'in şirketleşmesi · yöntemin vaatleri ve sınırları · “DT temelde muhafazakârdır” tartışması",
- r:"Kimbell, “Rethinking Design Thinking: Part I” (2011) · Micheli vd., “Doing Design Thinking” (2019)",
- v:"GE Adventure Series, Bank of America, IDEO alışveriş arabası"},
-{n:"H4",dt:"14 Eki",t:"İnsan merkezli tasarım ve katılımcı / ortak tasarım",
- s:"HCD'nin soykütüğü · “kullanıcı” kavramının eleştirisi: kimi dışarıda bırakır? · İskandinav işyeri demokrasisi geleneği · katılımın araçları ve tuzakları: sözde katılım",
- r:"Norman, <i>The Design of Everyday Things</i> (seçme bölüm) · Redström, “Towards User Design?” (2006) · Sanders &amp; Stappers (2008) · Arnstein (1969)",
- v:"OXO Good Grips, UTOPIA Projesi, Düzce Umut Evleri"},
-{n:"H5",dt:"21 Eki",t:"Sürdürülebilir tasarım I: ekolojik temeller",
- s:"Papanek mirası · yaşam döngüsü düşüncesi · beşikten beşiğe ve döngüsel ekonomi · yeşil aklama eleştirisi",
- r:"Papanek, <i>Design for the Real World</i> (giriş) · Ceschin & Gaziulusoy, “Evolution of Design for Sustainability” (2016)",
- v:"Fairphone, Patagonia, Arçelik geri dönüştürülmüş bileşenler"},
-{n:"H6",dt:"28 Eki",t:"Sürdürülebilir tasarım II: geçiş tasarımı ve sistemik yaklaşımlar",
- s:"Transition Design (CMU) · sosyo-teknik sistemler ve Çok Katmanlı Perspektif · Manzini ve sosyal inovasyon · tasarımın ölçeği sorunu",
- r:"Irwin, “Transition Design: A Proposal…” (2015) · Irwin, Kossoff & Tonkinwise, “Transition Design Provocation” (2015) · Manzini, <i>Design, When Everybody Designs</i> (seçme bölüm)",
- v:"Ojai su krizi, Amsterdam Doughnut, Kalundborg"},
-{n:"H7",dt:"4 Kas",t:"Spekülatif ve eleştirel tasarım",
- s:"RCA geleneği · A/B manifestosu · tasarım kurgusu · olası–akla yatkın–tercih edilir gelecekler · SCD'ye yöneltilen sınıfsal ve coğrafi eleştiriler",
- r:"Dunne &amp; Raby, <i>Speculative Everything</i> (1–3. bölümler) · Tonkinwise, “How We Intend to Future” (2014)",
- v:"United Micro Kingdoms, Mitigation of Shock, Toaster Project"},
-{n:"H8",dt:"11 Kas",t:"Sosyal tasarım ve tasarım aktivizmi",
- s:"Tasarımın %90'ı meselesi · insani tasarım ve eleştirisi · aktivizm ile hizmet arasındaki gerilim · STK–tasarımcı ilişkileri",
- r:"Fuad-Luke, <i>Design Activism</i> (seçme bölüm) · Mulgan, “The Process of Social Innovation” (2006)",
- v:"PlayPump, Autoprogettazione/CUCULA, Mine Kafon"},
-{n:"H9",dt:"18 Kas",t:"Tasarım adaleti ve feminist perspektifler",
- s:"Design Justice Network ilkeleri · normatif beden ve “varsayılan erkek” sorunu · veri ve algoritmalarda önyargı · kesişimsellik",
- r:"Costanza-Chock, <i>Design Justice</i> (giriş) · Buolamwini & Gebru, “Gender Shades” (2018) · Bardzell, “Feminist HCI” (2010)",
- v:"çarpışma testi mankenleri, Gender Shades, nabız oksimetresi"},
-{n:"H10",dt:"25 Kas",t:"Tasarımı dekolonize etmek",
- s:"Evrensel tasarım anlatısının eleştirisi · çoğul evren (pluriverse) · yerel bilgi ve zanaat epistemolojileri · Anadolu üretim kültürleri",
- r:"Escobar, <i>Designs for the Pluriverse</i> (giriş) · Tunstall, <i>Decolonizing Design</i> (seçme bölüm) · Schultz vd., “What Is at Stake with Decolonizing Design?” (2018)",
- v:"Totomoxtle, Vlisco, Navajo v. Urban Outfitters"},
-{n:"H11",dt:"2 Ara",t:"İnsan-ötesi tasarım ve malzeme odaklı yaklaşımlar",
- s:"Posthümanizm ve tasarım · türlerarası tasarım · malzeme odaklı tasarım (MDD) · biyotasarım ve yaşayan malzemeler",
- r:"Forlano, “Posthumanism and Design” (2017) · Karana vd., “Material Driven Design” (2015)",
- v:"Silk Pavilion, Hermès × MycoWorks, PIG 05049"},
-{n:"H12",dt:"9 Ara",t:"Hesaplamalı dönüş: yapay zekâ ve tasarımcının değişen rolü",
- s:"Parametrik–üretken tasarım · yapay zekâ ile birlikte tasarlama · otomasyon ve tasarım emeği · telif, özgünlük ve etik",
- r:"Verganti, Vendraminelli &amp; Iansiti, “Innovation and Design in the Age of AI” (2020)",
- v:"Kartell A.I. sandalye, Refik Anadol, Getty v. Stability"},
-{n:"H13",dt:"16 Ara",t:"Tasarım kültürleri ve Türkiye'de çağdaş tasarım",
- s:"Tasarımın söylemsel alanı: bienaller, müzeler, yayınlar · Türkiye'de tasarım politikaları ve kurumsallaşma · yerli tasarım kimliği tartışmaları",
- r:"Julier, <i>The Culture of Design</i> (seçme bölüm) · Er, Korkut &amp; Er (2003) · Ilhan &amp; Er, “Existential Antagonisms” (2016)",
- v:"Devrim Otomobili, 3. İstanbul Tasarım Bienali, Telve"},
-{n:"H14",dt:"23 Ara",t:"Sentez: pozisyon sunumları",
- s:"Öğrenciler pozisyon metinlerinin ana argümanını 10 dakikada savunur · akran değerlendirmesi · dersin haritasının kolektif yeniden çizimi",
- r:"",
- v:"", only:true}
+const SCHED=[
+  {"w": "H1 · 23 Eyl", "topic": "Tanışma ve dönem planlaması", "kaz": ""},
+  {"w": "H2 · 30 Eyl", "topic": "Giriş: \"Çağdaş\" nedir? Tasarım düşüncesinin haritası", "kaz": "Modern–postmodern–çağdaş ayrımı · tasarımın genişleyen tanımı: ürün → hizmet → sistem → söylem · kötücül problemler (wicked problems) · dönemin panoraması"},
+  {"w": "H3 · 7 Eki", "topic": "Tasarım odaklı düşünme ve eleştirisi", "kaz": "IDEO ve d.school modeli · design thinking'in şirketleşmesi · yöntemin vaatleri ve sınırları · “DT temelde muhafazakârdır” tartışması"},
+  {"w": "H4 · 14 Eki", "topic": "İnsan merkezli tasarım ve katılımcı / ortak tasarım", "kaz": "HCD'nin soykütüğü · “kullanıcı” kavramının eleştirisi: kimi dışarıda bırakır? · İskandinav işyeri demokrasisi geleneği · katılımın araçları ve tuzakları: sözde katılım"},
+  {"w": "H5 · 21 Eki", "topic": "Sürdürülebilir tasarım I: ekolojik temeller", "kaz": "Papanek mirası · yaşam döngüsü düşüncesi · beşikten beşiğe ve döngüsel ekonomi · yeşil aklama eleştirisi"},
+  {"w": "H6 · 28 Eki", "topic": "Sürdürülebilir tasarım II: geçiş tasarımı ve sistemik yaklaşımlar", "kaz": "Transition Design (CMU) · sosyo-teknik sistemler ve Çok Katmanlı Perspektif · Manzini ve sosyal inovasyon · tasarımın ölçeği sorunu"},
+  {"w": "H7 · 4 Kas", "topic": "Spekülatif ve eleştirel tasarım", "kaz": "RCA geleneği · A/B manifestosu · tasarım kurgusu · olası–akla yatkın–tercih edilir gelecekler · SCD'ye yöneltilen sınıfsal ve coğrafi eleştiriler"},
+  {"w": "H8 · 11 Kas", "topic": "Sosyal tasarım ve tasarım aktivizmi", "kaz": "Tasarımın %90'ı meselesi · insani tasarım ve eleştirisi · aktivizm ile hizmet arasındaki gerilim · STK–tasarımcı ilişkileri"},
+  {"w": "H9 · 18 Kas", "topic": "Tasarım adaleti ve feminist perspektifler", "kaz": "Design Justice Network ilkeleri · normatif beden ve “varsayılan erkek” sorunu · veri ve algoritmalarda önyargı · kesişimsellik"},
+  {"w": "H10 · 25 Kas", "topic": "Tasarımı dekolonize etmek", "kaz": "Evrensel tasarım anlatısının eleştirisi · çoğul evren (pluriverse) · yerel bilgi ve zanaat epistemolojileri · Anadolu üretim kültürleri"},
+  {"w": "H11 · 2 Ara", "topic": "İnsan-ötesi tasarım ve malzeme odaklı yaklaşımlar", "kaz": "Posthümanizm ve tasarım · türlerarası tasarım · malzeme odaklı tasarım (MDD) · biyotasarım ve yaşayan malzemeler"},
+  {"w": "H12 · 9 Ara", "topic": "Hesaplamalı dönüş: yapay zekâ ve tasarımcının değişen rolü", "kaz": "Parametrik–üretken tasarım · yapay zekâ ile birlikte tasarlama · otomasyon ve tasarım emeği · telif, özgünlük ve etik"},
+  {"w": "H13 · 16 Ara", "topic": "Tasarım kültürleri ve Türkiye'de çağdaş tasarım", "kaz": "Tasarımın söylemsel alanı: bienaller, müzeler, yayınlar · Türkiye'de tasarım politikaları ve kurumsallaşma · yerli tasarım kimliği tartışmaları"},
+  {"w": "H14 · 23 Ara", "topic": "Sentez: pozisyon sunumları", "kaz": ""}
 ];
 
-/* ═══════ VAKALAR ═══════ */
-const V=[
-/* A.1 */
-{th:"Tasarım odaklı düşünme",w:"H3",u:"https://www.milwaukeemag.com/2013/12/02/AScannerNotSoDarkly/",t:'GE Healthcare "Adventure Series" MR cihazları',a:"Doug Dietz, 2010'lar",
- o:"Çocukların MR çekimini korkutucu bulması üzerine cihaz ve oda deneyiminin korsan gemisi, safari gibi macera temalarıyla yeniden tasarlanması; sedasyon oranlarında ciddi düşüş raporlanır.",
- d:"Teknik ürünü değiştirmeden deneyimi değiştirmek “tasarım” mıdır, “ambalaj” mı? Başarı hangi koşullara bağlıydı ve ölçeklenebilir mi?"},
-{th:"Tasarım odaklı düşünme",w:"H3",u:"https://designthinking.ideo.com/blog/analytics-and-inspiration",t:'Bank of America "Keep the Change"',a:"IDEO, 2005",
- o:"Etnografik araştırmada kullanıcıların harcamaları yukarı yuvarlayarak zihinsel muhasebe yaptığının gözlenmesi; küsuratı otomatik tasarrufa aktaran hizmetin milyonlarca yeni müşteri getirmesi.",
- d:"İçgörü kimin? Kullanıcı davranışının bankaya kâr olarak dönmesi, HCD'nin kime hizmet ettiği sorusunu açar."},
-{th:"Tasarım odaklı düşünme",w:"H3",u:"https://www.ideo.com/journal/reimagining-the-shopping-cart",t:"IDEO alışveriş arabası",a:"ABC Nightline, 1999",
- o:"DT sürecinin televizyonda beş günde sahnelenmesi; disiplinlerarası ekip, beyin fırtınası ve hızlı prototipleme ritüellerinin küresel yayılımının başlangıç noktası.",
- d:"Yöntem mi izliyoruz, performans mı? Araba gerçekten üretime girdi mi, sorun tanımını kim yaptı?"},
-/* A.2 */
-{th:"İnsan merkezli / katılımcı",w:"H4",u:"https://www.oxo.com/blog/behind-the-scenes/behind-design-oxos-iconic-good-grips-handles",t:"OXO Good Grips",a:"Sam Farber, 1990",
- o:"Artritli bir kullanıcının (Betsey Farber) soyacak kullanamaması üzerine geliştirilen kalın, yumuşak saplı mutfak gereçleri serisinin herkes için daha iyi çıkması.",
- d:"Evrensel tasarım ile pazar genişletme arasındaki çizgi; kimin bedeni “norm” sayılıyor?"},
-{th:"İnsan merkezli / katılımcı",w:"H4",u:"https://www.lri.fr/~mbl/ENS/DEA-IHM/papers/Utopia.pdf",t:"UTOPIA Projesi",a:"İskandinavya, 1981–1986",
- o:"Gazete dizgi işçileri sendikası ile araştırmacıların, bilgisayarlaşmanın işçi becerisini yok etmemesi için üretim teknolojisini birlikte tasarlaması.",
- d:"Bugünkü “co-design atölyeleri” bu politik mirasın neresinde? Katılım karar yetkisi mi, danışma ritüeli mi?"},
-{th:"İnsan merkezli / katılımcı",w:"H4",u:"https://world-habitat.org/?p=11121",t:"Düzce Umut Evleri",a:"Türkiye, 2000'ler–2010'lar",
- o:"1999 depremi sonrası evsiz depremzedeler kooperatifinin, gönüllü mimar ve plancılarla katılımcı süreçle kendi mahallesini tasarlayıp üretmesi.",
- d:"Katılım yalnızca kriz koşullarında mı mümkün oluyor; kurumsallaşabilir mi? Türkiye'de en iyi belgelenmiş katılımcı tasarım örneklerinden."},
-/* A.3 */
-{th:"Sürdürülebilirlik",w:"H5",u:"https://www.fairphone.com/hub/en/impact/long-lasting-design/",t:"Fairphone",a:"Hollanda, 2013– ",
- o:"Modüler, onarılabilir ve tedarik zinciri şeffaf akıllı telefon; onarım hakkı hareketinin ürünleşmiş hâli.",
- d:"Etik ürün niş kalmaya mahkûm mu? Kullanıcıdan “daha fazla emek” isteyen sürdürülebilirlik kime ulaşır?"},
-{th:"Sürdürülebilirlik",w:"H5",u:"https://www.patagonia.com/stories/planet/activism/dont-buy-this-jacket-black-friday-and-the-new-york-times/story-18615.html",t:'Patagonia "Don\'t Buy This Jacket" ve Worn Wear',a:"2011– ",
- o:"Markanın tüketicilere kendi ürününü almamayı öğütleyen kampanyası ve ikinci el/onarım programı.",
- d:"Samimi bir sistem eleştirisi mi, yeşil aklamanın sofistike biçimi mi? Satışların kampanya sonrası artması neyi kanıtlar?"},
-{th:"Sürdürülebilirlik",w:"H5",u:"https://www.arcelikglobal.com/en/sustainability/in-touch-with-our-planet/fighting-plastic-pollution/",t:"Arçelik geri dönüştürülmüş bileşenler",a:"Türkiye, 2010'ların sonu",
- o:"Beyaz eşya parçalarında atık balıkçı ağlarından ve PET şişelerden elde edilen geri dönüştürülmüş plastiğin kullanılması.",
- d:"Bileşen düzeyinde döngüsellik ürün-sistem düzeyinde ne kadar anlam taşır? CBAM gibi düzenlemeler bu hamleleri nasıl şekillendiriyor?"},
-/* A.4 */
-{th:"Geçiş tasarımı",w:"H6",u:"https://dspace.palermo.edu/ojs/index.php/cdc/article/view/1045",t:"Ojai su krizi",a:"CMU Transition Design vakası, Kaliforniya",
- o:"Kuraklık yaşayan kasabanın su sorununun, kökleri yüzyıl öncesine uzanan kötücül bir problem olarak haritalanması; paydaş korku ve inançlarının analizle görünür kılınması.",
- d:"Haritalamak müdahale midir? Tasarımcının on yıllara yayılan bir geçişteki rolü ne? Yaklaşımın kendi kurucularınca işlenmiş ders vakası."},
-{th:"Geçiş tasarımı",w:"H6",u:"https://doughnuteconomics.org/stories/amsterdam-city-doughnut",t:'Amsterdam "Doughnut" şehri',a:"2020– ",
- o:"Kate Raworth'un simit ekonomisi modelinin belediye politikası ve kent tasarımı çerçevesine çevrilmesi.",
- d:"Gezegensel sınırlar yerel tasarım kararlarına gerçekten çevrilebiliyor mu, yoksa retorik bir çerçeve mi?"},
-{th:"Geçiş tasarımı",w:"H6",u:"https://www.symbiosis.dk",t:"Kalundborg endüstriyel simbiyozu",a:"Danimarka, 1972– ",
- o:"Bir sanayi bölgesindeki tesislerin atık ve enerji akışlarını onlarca yıl içinde kendiliğinden örülen takasla döngüselleştirmesi.",
- d:"Simbiyoz tasarlanabilir mi, yoksa ancak koşulları mı tasarlanabilir? Türkiye OSB'lerine aktarım denemeleri neden zorlanıyor?"},
-/* A.5 */
-{th:"Spekülatif / eleştirel",w:"H7",u:"https://researchonline.rca.ac.uk/1369/",t:'"United Micro Kingdoms"',a:"Dunne &amp; Raby, 2013",
- o:"İngiltere'nin dört karşıt ideolojik bölgeye ayrıldığı kurgu; her bölgenin ulaşım araçları o ideolojinin maddi eleştirisi olarak tasarlanır.",
- d:"Spekülasyonun politik gücü galeriyle sınırlı mı? Kim spekülasyon yapabilme lüksüne sahip?"},
-{th:"Spekülatif / eleştirel",w:"H7",u:"https://superflux.in/index.php/work/mitigation-of-shock/",t:'"Mitigation of Shock"',a:"Superflux, 2017–2019",
- o:"2050 Londra'sında iklim krizi koşullarında yaşayan bir ailenin dairesinin birebir kurulumu: gıda kıtlığına uyarlanmış mutfak, ev içi yetiştirme düzenekleri, geçmiş bolluğun kalıntıları.",
- d:"Korku mu empati mi üretir? Spekülatif mekân, politika değişimine kanıtlanabilir biçimde dokunur mu?"},
-{th:"Spekülatif / eleştirel",w:"H7",u:"https://www.dezeen.com/2009/06/27/the-toaster-project-by-thomas-thwaites/",t:'"The Toaster Project"',a:"Thomas Thwaites, 2009",
- o:"Tasarımcının ucuz bir tost makinesini madenden başlayarak sıfırdan üretme girişimi ve görkemli başarısızlığı; küresel üretim sistemlerinin görünmezliğini tersine mühendislikle ifşa eder.",
- d:"Başarısızlık burada bulgu mudur? Eleştirel tasarımda mizahın işlevi ne?"},
-/* A.6 */
-{th:"Sosyal tasarım / aktivizm",w:"H8",u:"https://news.climate.columbia.edu/2010/07/01/the-playpump-what-went-wrong/",t:"PlayPump",a:"Güney Afrika, 2000'ler",
- o:"Çocuk atlıkarıncasıyla su pompalama fikrinin milyonlarca dolarlık yardım fonu toplaması, ardından sahada verimsiz, bakımsız ve fiilen çocuk emeğine dayalı çıkması.",
- d:"“İyi hikâye” fon toplar; peki tasarım değerlendirmesini kim, hangi ölçütle yapmalı? İnsani tasarımın en öğretici başarısızlık vakası."},
-{th:"Sosyal tasarım / aktivizm",w:"H8",u:"https://www.dezeen.com/2015/11/16/enzo-mari-autoprogettazione-furniture-reproduction-berlin-refugee-organisation-cucula-humanitarian-design/",t:'"Autoprogettazione" ve CUCULA',a:"Enzo Mari, 1974 / Berlin, 2014",
- o:"Mari'nin herkesin çakabileceği açık mobilya çizimleri ve kırk yıl sonra bu lisansla mültecilerin mobilya üretip gelir elde ettiği CUCULA atölyesi.",
- d:"Tasarımcının feragat ettiği telif kime güç devreder? Zanaat–eğitim–istihdam üçgeni sürdürülebilir bir model olabilir mi?"},
-{th:"Sosyal tasarım / aktivizm",w:"H8",u:"https://www.moma.org/collection/works/160434",t:"Mine Kafon",a:"Massoud Hassani, 2011– ",
- o:"Rüzgârla yuvarlanarak mayın patlatan bambu-plastik küre; tasarım müzelerinin gözdesi olurken saha etkinliği tartışmalı kaldı, proje sonradan drone temelli tespite evrildi.",
- d:"Sembolik değer ile operasyonel değer ayrımı; “farkındalık yaratmak” bir tasarım çıktısı mıdır?"},
-/* A.7 */
-{th:"Tasarım adaleti",w:"H9",u:"https://www.volvocars.com/us/safety/research",t:"Çarpışma testi mankenleri ve Volvo E.V.A.",a:"otomotiv güvenliği",
- o:"On yıllar boyunca “ortalama erkek” bedenine göre yapılan güvenlik testlerinin kadınlar için daha yüksek yaralanma riskiyle sonuçlanması; Volvo'nun gerçek kaza verilerini açması.",
- d:"Norm beden mühendislik standardına nasıl gömülür ve standarttan nasıl sökülür?"},
-{th:"Tasarım adaleti",w:"H9",u:"https://www.media.mit.edu/projects/gender-shades/overview/",t:"Gender Shades",a:"Joy Buolamwini &amp; Timnit Gebru, 2018",
- o:"Ticari yüz tanıma sistemlerinin koyu tenli kadınlarda hata oranının açık tenli erkeklere göre dramatik biçimde yüksek çıktığını gösteren araştırma; büyük şirketlerin sistemlerini geri çekmesine varan etki.",
- d:"Önyargı veride mi, ekipte mi, problem tanımında mı? Denetim (audit) bir tasarım pratiği midir?"},
-{th:"Tasarım adaleti",w:"H9",u:"https://psnet.ahrq.gov/issue/racial-bias-pulse-oximetry-measurement",t:"Nabız oksimetrelerinde ten rengi yanlılığı",a:"görünürlük: 2020– ",
- o:"Cihaz kalibrasyonunun açık tene göre yapılmış olması nedeniyle koyu tenli hastalarda oksijen düşüklüğünü gözden kaçırabilmesinin pandemi döneminde klinik sonuçlarıyla belgelenmesi.",
- d:"Onlarca yıllık bir tıbbi ürün nasıl sorgusuz “nötr” sayıldı? Düzenleyici testin tasarımını kim tasarlar?"},
-/* A.8 */
-{th:"Dekolonizasyon",w:"H10",u:"https://www.dezeen.com/2019/05/30/totomoxtle-fernando-laposse-mexico-corn-circular-economy-design/",t:'"Totomoxtle"',a:"Fernando Laposse, Meksika, 2016– ",
- o:"Yerli mısır türlerinin renkli kabuklarından kakma kaplama malzemesi; Tonahuixtla köyünde tohum egemenliği, istihdam ve zanaatın birlikte canlandırılması.",
- d:"Tasarımcı–köy ortaklığında fayda ve isim kime akıyor? “Lüks obje” kanalı bu politikayı taşır mı, sulandırır mı?"},
-{th:"Dekolonizasyon",w:"H10",u:"https://vlisco.com/pages/about-vlisco",t:'Vlisco ve "Afrika baskıları"',a:"Hollanda / Batı Afrika",
- o:"Batı Afrika kimliğinin ikonu sayılan wax kumaşların bir buçuk asırdır Hollanda'da tasarlanıp üretilmesi; Endonezya batiğinden Afrika pazarına uzanan sömürge rotası.",
- d:"Kültürel sahiplik melez tarihlerde nasıl kurulur? “Otantiklik” kimin pazarlama kategorisi?"},
-{th:"Dekolonizasyon",w:"H10",u:"https://www.kellerrohrback.com/news/navajo-nation-urban-outfitters-inc-announce-settlement-agreement",t:"Navajo Nation v. Urban Outfitters",a:"ABD, 2012–2016",
- o:"Markanın “Navajo” adını ve desenlerini izinsiz kullanması üzerine açılan ve uzlaşmayla biten dava; kültürel temellükün hukuki zemine taşınması.",
- d:"Desen kimindir — topluluk mu, kamu malı mı? Türkiye paraleli: coğrafi işaretli zanaatlarda (Kütahya çinisi, Buldan bezi) tasarımcı–zanaatkâr fayda paylaşımı."},
-/* A.9 */
-{th:"İnsan-ötesi / malzeme",w:"H11",u:"https://www.oxman.com/projects/silk-pavillion-i",t:'"Silk Pavilion"',a:"MIT Media Lab, Neri Oxman ekibi, 2013",
- o:"Robotik iskelet üzerine binlerce ipekböceğinin ördüğü kubbe; üretimin insan–makine–organizma ortaklığına açılması.",
- d:"İpekböceği “ortak” mı, “araç” mı? Türlerarası tasarımda rıza ve refah nasıl düşünülür?"},
-{th:"İnsan-ötesi / malzeme",w:"H11",u:"https://www.mycoworks.com/introducing-sylvania-by-hermes",t:"Hermès × MycoWorks miselyum çanta",a:"2021",
- o:"Mantar miselyumundan üretilen malzemenin lüks segmentte klasik bir çanta modeline uygulanması; biyomalzemenin laboratuvardan pazara geçiş işareti.",
- d:"Yeni malzeme eski tüketim biçimini sürdürürse ne değişmiş olur? Karana'nın malzeme deneyimi çerçevesiyle çözümleme."},
-{th:"İnsan-ötesi / malzeme",w:"H11",u:"https://www.designboom.com/design/christien-meindertsma-pig-05049-book",t:'"PIG 05049"',a:"Christien Meindertsma, 2007",
- o:"Tek bir domuzun bedeninin izini süren kitap: mermiden diş macununa 185 ürün. Malzeme zincirlerinin radikal şeffaflaştırılması.",
- d:"Bilgi vermek tavır almak mıdır? Tasarım araştırması yargı bildirmeden eleştirel olabilir mi?"},
-/* A.10 */
-{th:"Yapay zekâ",w:"H12",u:"https://www.starck.com/a-i-introducing-the-first-chair-created-with-artificial-intelligence-p3801",t:'Kartell + Philippe Starck "A.I." sandalyesi',a:"2019",
- o:"Üretken tasarım yazılımıyla, minimum malzeme–maksimum dayanım hedefiyle biçimlendirilen ve seri üretime giren ilk sandalyelerden biri.",
- d:"Yazara ne kalıyor — kısıtları tanımlamak mı? “Starck imzası” burada neyi imzalıyor?"},
-{th:"Yapay zekâ",w:"H12",u:"https://www.moma.org/calendar/exhibitions/5535",t:'"Unsupervised"',a:"Refik Anadol, MoMA, 2022–2023",
- o:"MoMA koleksiyon verisinin üretken modelle sürekli akan görsel esere dönüştürülmesi; Türkiyeli bir pratiğin küresel yapay zekâ estetiği tartışmasının merkezine oturması.",
- d:"Veri görselleştirme, sanat ve tasarım arasındaki sınır; “makine halüsinasyonu” retoriği neyi görünmez kılıyor — emek, enerji, veri kaynağı?"},
-{th:"Yapay zekâ",w:"H12",u:"https://www.judiciary.uk/judgments/getty-images-v-stability-ai/",t:"Getty Images v. Stability AI",a:"2023– ",
- o:"Stok görsel devinin, modelin kendi arşiviyle izinsiz eğitildiği iddiasıyla açtığı dava; üretken araçların hukuki-etik zemininin kurulduğu süreç.",
- d:"“Eğitim verisi emektir” tezinin tasarım mesleğine sonuçları; stilin mülkiyeti olabilir mi?"},
-/* A.11 */
-{th:"Türkiye'de tasarım kültürleri",w:"H13",u:"https://kureansiklopedi.com/tr/detay/devrim-arabalari-2",t:"Devrim Otomobili",a:"1961",
- o:"Dört buçuk ayda tasarlanıp üretilen yerli otomobil prototipinin “benzin bitti” anlatısıyla ulusal hafızaya başarısızlık olarak kazınması.",
- d:"Teknolojik millîlik söylemi tasarımı nasıl araçsallaştırır? Anlatı (mit) ile arşiv (belge) arasındaki fark vaka üzerinde gösterilir."},
-{th:"Türkiye'de tasarım kültürleri",w:"H13",u:"https://arewehuman.iksv.org/exhibition/",t:'3. İstanbul Tasarım Bienali, "Biz İnsan mıyız?"',a:"Colomina &amp; Wigley, 2016",
- o:"Tasarımın 200.000 yıllık, türü biçimlendiren bir olgu olarak sergilenmesi; bienalin ürün vitrini yerine kuramsal manifesto olarak kurulması.",
- d:"Bienal kimin için konuşur? Kuramsal küratörlük yerel tasarım ortamına ne bırakır?"},
-{th:"Türkiye'de tasarım kültürleri",w:"H13",u:"https://www.arcelik.com.tr/blog/telve-20-yasinda",t:'Arçelik "Telve" Türk kahvesi makinesi',a:"2000'ler",
- o:"Geleneksel bir ritüelin (cezve, köpük, telve) elektrikli ev aletine çevrilmesi ve kategorinin Türkiye pazarında kurulması.",
- d:"Gelenek “özellik setine” çevrilebilir mi? Kültürel ürünün ihracatta okunabilirliği sorunu."}
+const D=[
+{"w": "ÇEKİRDEK", "t": "Design Justice: Community-Led Practices to Build the Worlds We Need", "a": "Costanza-Chock, S. (2020), MIT Press", "s": "acik", "k": "akademik", "r": "★ Alanın en önemli açık erişim kitabı. Gold OA — tam metin ücretsiz. H9'un çekirdek okuması hiçbir abonelik gerektirmiyor.", "u": "https://direct.mit.edu/books/oa-monograph/4605/Design-JusticeCommunity-Led-Practices-to-Build-the", "w2": "H9 · 18 Kas"},
+{"w": "ÇEKİRDEK", "t": "Design Justice — çevrimiçi okuma sürümü", "a": "MIT Press / PubPub", "s": "acik", "k": "akademik", "r": "Aynı kitabın tarayıcıda bölüm bölüm okunabilen sürümü. Tarayıcıda okumanın en pratik yolu.", "u": "https://designjustice.mitpress.mit.edu/", "w2": "H9 · 18 Kas"},
+{"w": "ÇEKİRDEK", "t": "Speculative Everything: Design, Fiction, and Social Dreaming", "a": "Dunne, A. &amp; Raby, F. (2013 / yeni önsözlü baskı)", "s": "satin", "k": "akademik", "r": "H7'nin ana kitabı. 1–3. bölümler okunur. Yeni baskı ISBN 9780262548687.", "u": "https://mitpressbookstore.mit.edu/book/9780262548687", "w2": "H7 · 4 Kas"},
+{"w": "ÇEKİRDEK", "t": "Designs for the Pluriverse", "a": "Escobar, A. (2018), Duke University Press", "s": "satin", "k": "akademik", "r": "H10'un ana kitabı. İngilizce baskı ücretli; 2016 tarihli İspanyolca öncülü <b>Autonomía y diseño</b> Creative Commons lisanslıdır — İspanyolca okuyan öğrenci için ücretsiz rota.", "u": "https://www.dukeupress.edu/designs-for-the-pluriverse", "w2": "H10 · 25 Kas"},
+{"w": "ÇEKİRDEK", "t": "Decolonizing Design: A Cultural Justice Guidebook", "a": "Tunstall, E. (Dori) (2023), MIT Press", "s": "ekual", "k": "akademik", "r": "Açık erişim değil, ama MIT Press Direct'te bölüm PDF'leri görüntülenebiliyor. 136 sayfa — kısa ve öğrenci dostu.", "u": "https://direct.mit.edu/books/book/5534/Decolonizing-DesignA-Cultural-Justice-Guidebook", "w2": "H10 · 25 Kas"},
+{"w": "ÇEKİRDEK", "t": "Design, When Everybody Designs", "a": "Manzini, E. (2015), MIT Press", "s": "satin", "k": "akademik", "r": "H6'nın sosyal inovasyon ayağı. Seçme bölümler okunur. ISBN 9780262028608.", "u": "https://mitpress.mit.edu/9780262028608/design-when-everybody-designs/", "w2": "H6 · 28 Eki"},
+{"w": "ÇEKİRDEK", "t": "Design for the Real World, 3. baskı", "a": "Papanek, V. (1971 / 2019), Thames &amp; Hudson", "s": "satin", "k": "akademik", "r": "H5'in tarihsel dayanağı. Yalnızca giriş bölümü okunur. ISBN 9780500295335.", "u": "https://www.thamesandhudson.com/products/design-for-the-real-world", "w2": "H5 · 21 Eki"},
+{"w": "ÇEKİRDEK", "t": "The Culture of Design, 3. baskı", "a": "Julier, G. (2013), Sage", "s": "satin", "k": "akademik", "r": "H13'ün çerçeve kitabı. Tasarımın söylemsel alanı — bienal, müze, yayın. ISBN 9781446273593.", "u": "https://uk.sagepub.com/en-gb/eur/the-culture-of-design/book241122", "w2": "H13 · 16 Ara"},
+{"w": "H2 · 30 Eyl", "t": "Wicked Problems in Design Thinking", "a": "Buchanan, R. (1992), Design Issues 8(2), 5–21", "s": "ekual", "k": "akademik", "r": "★ H2'nin zorunlu okuması. Dersin tüm dönem boyunca döneceği kavramın kaynak metni. JSTOR — kütüphane erişimi.", "u": "https://www.jstor.org/stable/1511637"},
+{"w": "H2 · 30 Eyl", "t": "Incremental and Radical Innovation: Design Research vs. Technology and Meaning Change", "a": "Norman, D. &amp; Verganti, R. (2014), Design Issues 30(1)", "s": "ekual", "k": "akademik", "r": "HCD'nin ne yapabildiğini ve ne yapamadığını netleştirir. Politecnico di Milano açık arşivinde ücretsiz kopyası var.", "u": "https://doi.org/10.1162/DESI_a_00244"},
+{"w": "H3 · 7 Eki", "t": "Rethinking Design Thinking: Part I", "a": "Kimbell, L. (2011), Design and Culture 3(3), 285–306", "s": "ekual", "k": "akademik", "r": "★ H3'ün zorunlu okuması. Hakemli; design thinking'i bilişsel stil, genel tasarım kuramı ve örgütsel kaynak olarak üç hesap üzerinden eleştirir. Taylor & Francis — kütüphane.", "u": "https://doi.org/10.2752/175470811X13071166525216"},
+{"w": "H3 · 7 Eki", "t": "Doing Design Thinking: Conceptual Review, Synthesis, and Research Agenda", "a": "Micheli, P., Wilner, S.J.S., Bhatti, S.H., Mura, M. & Beverland, M.B. (2019), JPIM 36(2), 124–148", "s": "ekual", "k": "akademik", "r": "★ H3'ün ikinci zorunlu okuması. Hakemli sistematik derleme; savunucular ile eleştirmenler arasındaki ayrışmayı kanıta dayalı biçimde haritalar. Wiley — kütüphane.", "u": "https://doi.org/10.1111/jpim.12466"},
+{"w": "H3 · 7 Eki", "t": "GE Healthcare \"Adventure Series\" MR cihazları", "a": "Doug Dietz, 2010'lar", "s": "acik", "k": "vaka", "th": "Tasarım odaklı düşünme", "o": "Çocukların MR çekimini korkutucu bulması üzerine cihaz ve oda deneyiminin korsan gemisi, safari gibi macera temalarıyla yeniden tasarlanması; sedasyon oranlarında ciddi düşüş raporlanır.", "d": "Teknik ürünü değiştirmeden deneyimi değiştirmek “tasarım” mıdır, “ambalaj” mı? Başarı hangi koşullara bağlıydı ve ölçeklenebilir mi?", "u": "https://www.milwaukeemag.com/2013/12/02/AScannerNotSoDarkly/"},
+{"w": "H3 · 7 Eki", "t": "Bank of America \"Keep the Change\"", "a": "IDEO, 2005", "s": "acik", "k": "vaka", "th": "Tasarım odaklı düşünme", "o": "Etnografik araştırmada kullanıcıların harcamaları yukarı yuvarlayarak zihinsel muhasebe yaptığının gözlenmesi; küsuratı otomatik tasarrufa aktaran hizmetin milyonlarca yeni müşteri getirmesi.", "d": "İçgörü kimin? Kullanıcı davranışının bankaya kâr olarak dönmesi, HCD'nin kime hizmet ettiği sorusunu açar.", "u": "https://designthinking.ideo.com/blog/analytics-and-inspiration"},
+{"w": "H3 · 7 Eki", "t": "IDEO alışveriş arabası", "a": "ABC Nightline, 1999", "s": "acik", "k": "vaka", "th": "Tasarım odaklı düşünme", "o": "DT sürecinin televizyonda beş günde sahnelenmesi; disiplinlerarası ekip, beyin fırtınası ve hızlı prototipleme ritüellerinin küresel yayılımının başlangıç noktası.", "d": "Yöntem mi izliyoruz, performans mı? Araba gerçekten üretime girdi mi, sorun tanımını kim yaptı?", "u": "https://www.ideo.com/journal/reimagining-the-shopping-cart"},
+{"w": "H4 · 14 Eki", "t": "Towards User Design? On the Shift from Object to User as the Subject of Design", "a": "Redström, J. (2006), Design Studies 27(2)", "s": "ekual", "k": "akademik", "r": "“Kullanıcı” kavramının kendisini sorunsallaştırır — H4'ün eleştirel dönüş noktası. ScienceDirect — EKUAL; Redström'ün kurumsal deposunda önsürüm var.", "u": "https://www.semanticscholar.org/paper/Towards-user-design-On-the-shift-from-object-to-as-Redstr%C3%B6m/6f1ff02f63cf6543ba67824e6e8ad27c9e4b0bd0"},
+{"w": "H4 · 14 Eki", "t": "The Design of Everyday Things, gözden geçirilmiş baskı", "a": "Norman, D. (2013), Basic Books / MIT Press", "s": "satin", "k": "akademik", "r": "Yalnızca 1. bölüm okunur. Türkçe çevirisi mevcuttur.", "u": "https://mitpress.mit.edu/9780262525671/the-design-of-everyday-things/"},
+{"w": "H4 · 14 Eki", "t": "Co-creation and the New Landscapes of Design", "a": "Sanders, E. B.-N. &amp; Stappers, P. J. (2008), CoDesign 4(1)", "s": "ekual", "k": "akademik", "r": "★ H4'ün zorunlu okuması (katılımcı tasarım ayağı). Alanın en çok atıf alan metinlerinden. TU Delft kurumsal deposunda ücretsiz sürüm var.", "u": "https://doi.org/10.1080/15710880701875068"},
+{"w": "H4 · 14 Eki", "t": "A Ladder of Citizen Participation", "a": "Arnstein, S. R. (1969), JAIP 35(4)", "s": "ekual", "k": "akademik", "r": "Katılım merdiveni — “sözde katılım” tartışmasının kaynağı. Tasarım dışından ama derse en çok yarayan metin; çok sayıda ücretsiz kopyası dolaşımda.", "u": "https://doi.org/10.1080/01944366908977225"},
+{"w": "H4 · 14 Eki", "t": "OXO Good Grips", "a": "Sam Farber, 1990", "s": "acik", "k": "vaka", "th": "İnsan merkezli / katılımcı", "o": "Artritli bir kullanıcının (Betsey Farber) soyacak kullanamaması üzerine geliştirilen kalın, yumuşak saplı mutfak gereçleri serisinin herkes için daha iyi çıkması.", "d": "Evrensel tasarım ile pazar genişletme arasındaki çizgi; kimin bedeni “norm” sayılıyor?", "u": "https://www.oxo.com/blog/behind-the-scenes/behind-design-oxos-iconic-good-grips-handles"},
+{"w": "H4 · 14 Eki", "t": "UTOPIA Projesi", "a": "İskandinavya, 1981–1986", "s": "acik", "k": "vaka", "th": "İnsan merkezli / katılımcı", "o": "Gazete dizgi işçileri sendikası ile araştırmacıların, bilgisayarlaşmanın işçi becerisini yok etmemesi için üretim teknolojisini birlikte tasarlaması.", "d": "Bugünkü “co-design atölyeleri” bu politik mirasın neresinde? Katılım karar yetkisi mi, danışma ritüeli mi?", "u": "https://www.lri.fr/~mbl/ENS/DEA-IHM/papers/Utopia.pdf"},
+{"w": "H4 · 14 Eki", "t": "Düzce Umut Evleri", "a": "Türkiye, 2000'ler–2010'lar", "s": "acik", "k": "vaka", "th": "İnsan merkezli / katılımcı", "o": "1999 depremi sonrası evsiz depremzedeler kooperatifinin, gönüllü mimar ve plancılarla katılımcı süreçle kendi mahallesini tasarlayıp üretmesi.", "d": "Katılım yalnızca kriz koşullarında mı mümkün oluyor; kurumsallaşabilir mi? Türkiye'de en iyi belgelenmiş katılımcı tasarım örneklerinden.", "u": "https://world-habitat.org/?p=11121"},
+{"w": "H5 · 21 Eki", "t": "Evolution of Design for Sustainability: From Product Design to Design for System Innovations and Transitions", "a": "Ceschin, F. & Gaziulusoy, I. (2016), Design Studies 47, 118–163", "s": "ekual", "k": "akademik", "r": "★ H5'ün ikinci zorunlu okuması. Hakemli; sürdürülebilir tasarımın üründen sosyo-teknik sisteme uzanan evrimini dört düzeyde haritalar. 1400+ atıf. Elsevier — kütüphane.", "u": "https://doi.org/10.1016/j.destud.2016.09.002"},
+{"w": "H5 · 21 Eki", "t": "Fairphone", "a": "Hollanda, 2013– ", "s": "acik", "k": "vaka", "th": "Sürdürülebilirlik", "o": "Modüler, onarılabilir ve tedarik zinciri şeffaf akıllı telefon; onarım hakkı hareketinin ürünleşmiş hâli.", "d": "Etik ürün niş kalmaya mahkûm mu? Kullanıcıdan “daha fazla emek” isteyen sürdürülebilirlik kime ulaşır?", "u": "https://www.fairphone.com/hub/en/impact/long-lasting-design/"},
+{"w": "H5 · 21 Eki", "t": "Patagonia \"Don't Buy This Jacket\" ve Worn Wear", "a": "2011– ", "s": "acik", "k": "vaka", "th": "Sürdürülebilirlik", "o": "Markanın tüketicilere kendi ürününü almamayı öğütleyen kampanyası ve ikinci el/onarım programı.", "d": "Samimi bir sistem eleştirisi mi, yeşil aklamanın sofistike biçimi mi? Satışların kampanya sonrası artması neyi kanıtlar?", "u": "https://www.patagonia.com/stories/planet/activism/dont-buy-this-jacket-black-friday-and-the-new-york-times/story-18615.html"},
+{"w": "H5 · 21 Eki", "t": "Arçelik geri dönüştürülmüş bileşenler", "a": "Türkiye, 2010'ların sonu", "s": "acik", "k": "vaka", "th": "Sürdürülebilirlik", "o": "Beyaz eşya parçalarında atık balıkçı ağlarından ve PET şişelerden elde edilen geri dönüştürülmüş plastiğin kullanılması.", "d": "Bileşen düzeyinde döngüsellik ürün-sistem düzeyinde ne kadar anlam taşır? CBAM gibi düzenlemeler bu hamleleri nasıl şekillendiriyor?", "u": "https://www.arcelikglobal.com/en/sustainability/in-touch-with-our-planet/fighting-plastic-pollution/"},
+{"w": "H6 · 28 Eki", "t": "Transition Design: A Proposal for a New Area of Design Practice, Study, and Research", "a": "Irwin, T. (2015), Design and Culture 7(2), 229–246", "s": "ekual", "k": "akademik", "r": "★ H6'nın zorunlu okuması. Taylor &amp; Francis — kütüphane.", "u": "https://doi.org/10.1080/17547075.2015.1051829"},
+{"w": "H6 · 28 Eki", "t": "Transition Design Provocation", "a": "Irwin, T., Kossoff, G. & Tonkinwise, C. (2015), Design Philosophy Papers 13(1), 3–11", "s": "ekual", "k": "akademik", "r": "★ H6'nın ikinci zorunlu okuması. Hakemli; Transition Design sempozyumunun kurucu çerçeve metni. Taylor & Francis — kütüphane; açık erişim kopyası kurumsal depoda mevcut.", "u": "https://doi.org/10.1080/14487136.2015.1085688"},
+{"w": "H6 · 28 Eki", "t": "Ojai su krizi", "a": "CMU Transition Design vakası, Kaliforniya", "s": "acik", "k": "vaka", "th": "Geçiş tasarımı", "o": "Kuraklık yaşayan kasabanın su sorununun, kökleri yüzyıl öncesine uzanan kötücül bir problem olarak haritalanması; paydaş korku ve inançlarının analizle görünür kılınması.", "d": "Haritalamak müdahale midir? Tasarımcının on yıllara yayılan bir geçişteki rolü ne? Yaklaşımın kendi kurucularınca işlenmiş ders vakası.", "u": "https://dspace.palermo.edu/ojs/index.php/cdc/article/view/1045"},
+{"w": "H6 · 28 Eki", "t": "Amsterdam \"Doughnut\" şehri", "a": "2020– ", "s": "acik", "k": "vaka", "th": "Geçiş tasarımı", "o": "Kate Raworth'un simit ekonomisi modelinin belediye politikası ve kent tasarımı çerçevesine çevrilmesi.", "d": "Gezegensel sınırlar yerel tasarım kararlarına gerçekten çevrilebiliyor mu, yoksa retorik bir çerçeve mi?", "u": "https://doughnuteconomics.org/stories/amsterdam-city-doughnut"},
+{"w": "H6 · 28 Eki", "t": "Kalundborg endüstriyel simbiyozu", "a": "Danimarka, 1972– ", "s": "acik", "k": "vaka", "th": "Geçiş tasarımı", "o": "Bir sanayi bölgesindeki tesislerin atık ve enerji akışlarını onlarca yıl içinde kendiliğinden örülen takasla döngüselleştirmesi.", "d": "Simbiyoz tasarlanabilir mi, yoksa ancak koşulları mı tasarlanabilir? Türkiye OSB'lerine aktarım denemeleri neden zorlanıyor?", "u": "https://www.symbiosis.dk"},
+{"w": "H7 · 4 Kas", "t": "How We Intend to Future", "a": "Tonkinwise, C. (2014), Design Philosophy Papers 12(2)", "s": "ekual", "k": "akademik", "r": "Spekülatif tasarıma içeriden gelen en keskin eleştiri. Taylor &amp; Francis — kütüphane.", "u": "https://doi.org/10.2752/144871314X14159818597676"},
+{"w": "H7 · 4 Kas", "t": "\"United Micro Kingdoms\"", "a": "Dunne &amp; Raby, 2013", "s": "acik", "k": "vaka", "th": "Spekülatif / eleştirel", "o": "İngiltere'nin dört karşıt ideolojik bölgeye ayrıldığı kurgu; her bölgenin ulaşım araçları o ideolojinin maddi eleştirisi olarak tasarlanır.", "d": "Spekülasyonun politik gücü galeriyle sınırlı mı? Kim spekülasyon yapabilme lüksüne sahip?", "u": "https://researchonline.rca.ac.uk/1369/"},
+{"w": "H7 · 4 Kas", "t": "\"Mitigation of Shock\"", "a": "Superflux, 2017–2019", "s": "acik", "k": "vaka", "th": "Spekülatif / eleştirel", "o": "2050 Londra'sında iklim krizi koşullarında yaşayan bir ailenin dairesinin birebir kurulumu: gıda kıtlığına uyarlanmış mutfak, ev içi yetiştirme düzenekleri, geçmiş bolluğun kalıntıları.", "d": "Korku mu empati mi üretir? Spekülatif mekân, politika değişimine kanıtlanabilir biçimde dokunur mu?", "u": "https://superflux.in/index.php/work/mitigation-of-shock/"},
+{"w": "H7 · 4 Kas", "t": "\"The Toaster Project\"", "a": "Thomas Thwaites, 2009", "s": "acik", "k": "vaka", "th": "Spekülatif / eleştirel", "o": "Tasarımcının ucuz bir tost makinesini madenden başlayarak sıfırdan üretme girişimi ve görkemli başarısızlığı; küresel üretim sistemlerinin görünmezliğini tersine mühendislikle ifşa eder.", "d": "Başarısızlık burada bulgu mudur? Eleştirel tasarımda mizahın işlevi ne?", "u": "https://www.dezeen.com/2009/06/27/the-toaster-project-by-thomas-thwaites/"},
+{"w": "H8 · 11 Kas", "t": "The Process of Social Innovation", "a": "Mulgan, G. (2006), Innovations: Technology, Governance, Globalization 1(2), 145–162", "s": "ekual", "k": "akademik", "r": "★ H8'in zorunlu okuması. Hakemli; sosyal inovasyonun süreç modelini kurar.", "u": "https://doi.org/10.1162/itgg.2006.1.2.145"},
+{"w": "H8 · 11 Kas", "t": "Design Activism: Beautiful Strangeness for a Sustainable World", "a": "Fuad-Luke, A. (2009), Routledge", "s": "satin", "k": "akademik", "r": "Seçme bölüm okunur.", "u": "https://www.routledge.com/Design-Activism-Beautiful-Strangeness-for-a-Sustainable-World/Fuad-Luke/p/book/9781844076451"},
+{"w": "H8 · 11 Kas", "t": "PlayPump", "a": "Güney Afrika, 2000'ler", "s": "acik", "k": "vaka", "th": "Sosyal tasarım / aktivizm", "o": "Çocuk atlıkarıncasıyla su pompalama fikrinin milyonlarca dolarlık yardım fonu toplaması, ardından sahada verimsiz, bakımsız ve fiilen çocuk emeğine dayalı çıkması.", "d": "“İyi hikâye” fon toplar; peki tasarım değerlendirmesini kim, hangi ölçütle yapmalı? İnsani tasarımın en öğretici başarısızlık vakası.", "u": "https://news.climate.columbia.edu/2010/07/01/the-playpump-what-went-wrong/"},
+{"w": "H8 · 11 Kas", "t": "\"Autoprogettazione\" ve CUCULA", "a": "Enzo Mari, 1974 / Berlin, 2014", "s": "acik", "k": "vaka", "th": "Sosyal tasarım / aktivizm", "o": "Mari'nin herkesin çakabileceği açık mobilya çizimleri ve kırk yıl sonra bu lisansla mültecilerin mobilya üretip gelir elde ettiği CUCULA atölyesi.", "d": "Tasarımcının feragat ettiği telif kime güç devreder? Zanaat–eğitim–istihdam üçgeni sürdürülebilir bir model olabilir mi?", "u": "https://www.dezeen.com/2015/11/16/enzo-mari-autoprogettazione-furniture-reproduction-berlin-refugee-organisation-cucula-humanitarian-design/"},
+{"w": "H8 · 11 Kas", "t": "Mine Kafon", "a": "Massoud Hassani, 2011– ", "s": "acik", "k": "vaka", "th": "Sosyal tasarım / aktivizm", "o": "Rüzgârla yuvarlanarak mayın patlatan bambu-plastik küre; tasarım müzelerinin gözdesi olurken saha etkinliği tartışmalı kaldı, proje sonradan drone temelli tespite evrildi.", "d": "Sembolik değer ile operasyonel değer ayrımı; “farkındalık yaratmak” bir tasarım çıktısı mıdır?", "u": "https://www.moma.org/collection/works/160434"},
+{"w": "H9 · 18 Kas", "t": "Gender Shades: Intersectional Accuracy Disparities in Commercial Gender Classification", "a": "Buolamwini, J. &amp; Gebru, T. (2018), PMLR 81", "s": "acik", "k": "akademik", "r": "★ Tam açık erişim. Tasarım adaletinin ölçülebilir kanıtı — “önyargı” tartışmasını duygudan veriye taşır. gendershades.org sitesinde görsel özeti de var.", "u": "https://proceedings.mlr.press/v81/buolamwini18a.html"},
+{"w": "H9 · 18 Kas", "t": "Feminist HCI: Taking Stock and Outlining an Agenda for Design", "a": "Bardzell, S. (2010), Proceedings of the SIGCHI Conference (CHI 2010), 1301–1310", "s": "ekual", "k": "akademik", "r": "★ H9'un ikinci zorunlu okuması. Hakemli; ACM CHI konferans bildirisi (alanın en sıkı hakem sürecine sahip venue'lerinden biri). Feminist kuramı tasarım kriterine çevirir. 2000+ atıf.", "u": "https://doi.org/10.1145/1753326.1753521"},
+{"w": "H9 · 18 Kas", "t": "Çarpışma testi mankenleri ve Volvo E.V.A.", "a": "otomotiv güvenliği", "s": "acik", "k": "vaka", "th": "Tasarım adaleti", "o": "On yıllar boyunca “ortalama erkek” bedenine göre yapılan güvenlik testlerinin kadınlar için daha yüksek yaralanma riskiyle sonuçlanması; Volvo'nun gerçek kaza verilerini açması.", "d": "Norm beden mühendislik standardına nasıl gömülür ve standarttan nasıl sökülür?", "u": "https://www.volvocars.com/us/safety/research"},
+{"w": "H9 · 18 Kas", "t": "Gender Shades", "a": "Joy Buolamwini &amp; Timnit Gebru, 2018", "s": "acik", "k": "vaka", "th": "Tasarım adaleti", "o": "Ticari yüz tanıma sistemlerinin koyu tenli kadınlarda hata oranının açık tenli erkeklere göre dramatik biçimde yüksek çıktığını gösteren araştırma; büyük şirketlerin sistemlerini geri çekmesine varan etki.", "d": "Önyargı veride mi, ekipte mi, problem tanımında mı? Denetim (audit) bir tasarım pratiği midir?", "u": "https://www.media.mit.edu/projects/gender-shades/overview/"},
+{"w": "H9 · 18 Kas", "t": "Nabız oksimetrelerinde ten rengi yanlılığı", "a": "görünürlük: 2020– ", "s": "acik", "k": "vaka", "th": "Tasarım adaleti", "o": "Cihaz kalibrasyonunun açık tene göre yapılmış olması nedeniyle koyu tenli hastalarda oksijen düşüklüğünü gözden kaçırabilmesinin pandemi döneminde klinik sonuçlarıyla belgelenmesi.", "d": "Onlarca yıllık bir tıbbi ürün nasıl sorgusuz “nötr” sayıldı? Düzenleyici testin tasarımını kim tasarlar?", "u": "https://psnet.ahrq.gov/issue/racial-bias-pulse-oximetry-measurement"},
+{"w": "H10 · 25 Kas", "t": "On Decolonizing Design", "a": "Tlostanova, M. (2017), Design Philosophy Papers 15(1), 51–61", "s": "ekual", "k": "akademik", "r": "Kısa ve yoğun; Escobar'a giriş olarak kitaptan daha uygun. Taylor &amp; Francis — kütüphane.", "u": "https://doi.org/10.1080/14487136.2017.1301017"},
+{"w": "H10 · 25 Kas", "t": "What Is at Stake with Decolonizing Design? A Roundtable", "a": "Schultz, T., Abdulla, D., Ansari, A. vd. (2018), Design and Culture 10(1), 81–101", "s": "ekual", "k": "akademik", "r": "★ H10'un ikinci zorunlu okuması. Hakemli; Decolonising Design grubunun sekiz kurucu üyesinin ortak yazısı. Taylor & Francis — kütüphane; açık erişim kopyası UAL arşivinde mevcut.", "u": "https://doi.org/10.1080/17547075.2018.1434368"},
+{"w": "H10 · 25 Kas", "t": "\"Totomoxtle\"", "a": "Fernando Laposse, Meksika, 2016– ", "s": "acik", "k": "vaka", "th": "Dekolonizasyon", "o": "Yerli mısır türlerinin renkli kabuklarından kakma kaplama malzemesi; Tonahuixtla köyünde tohum egemenliği, istihdam ve zanaatın birlikte canlandırılması.", "d": "Tasarımcı–köy ortaklığında fayda ve isim kime akıyor? “Lüks obje” kanalı bu politikayı taşır mı, sulandırır mı?", "u": "https://www.dezeen.com/2019/05/30/totomoxtle-fernando-laposse-mexico-corn-circular-economy-design/"},
+{"w": "H10 · 25 Kas", "t": "Vlisco ve \"Afrika baskıları\"", "a": "Hollanda / Batı Afrika", "s": "acik", "k": "vaka", "th": "Dekolonizasyon", "o": "Batı Afrika kimliğinin ikonu sayılan wax kumaşların bir buçuk asırdır Hollanda'da tasarlanıp üretilmesi; Endonezya batiğinden Afrika pazarına uzanan sömürge rotası.", "d": "Kültürel sahiplik melez tarihlerde nasıl kurulur? “Otantiklik” kimin pazarlama kategorisi?", "u": "https://vlisco.com/pages/about-vlisco"},
+{"w": "H10 · 25 Kas", "t": "Navajo Nation v. Urban Outfitters", "a": "ABD, 2012–2016", "s": "acik", "k": "vaka", "th": "Dekolonizasyon", "o": "Markanın “Navajo” adını ve desenlerini izinsiz kullanması üzerine açılan ve uzlaşmayla biten dava; kültürel temellükün hukuki zemine taşınması.", "d": "Desen kimindir — topluluk mu, kamu malı mı? Türkiye paraleli: coğrafi işaretli zanaatlarda (Kütahya çinisi, Buldan bezi) tasarımcı–zanaatkâr fayda paylaşımı.", "u": "https://www.kellerrohrback.com/news/navajo-nation-urban-outfitters-inc-announce-settlement-agreement"},
+{"w": "H11 · 2 Ara", "t": "Posthumanism and Design", "a": "Forlano, L. (2017), She Ji 3(1), 16–29", "s": "acik", "k": "akademik", "r": "★ H11'in zorunlu okuması. She Ji tamamen açık erişim — PDF doğrudan iniyor. ANT'den yeni materyalizme alanın haritasını çıkarıyor.", "u": "https://doi.org/10.1016/j.sheji.2017.08.001"},
+{"w": "H11 · 2 Ara", "t": "Material Driven Design (MDD): A Method to Design for Material Experiences", "a": "Karana, E., Barati, B., Rognoli, V. &amp; Zeeuw van der Laan, A. (2015), IJDesign 9(2)", "s": "acik", "k": "akademik", "r": "★ Malzeme odaklı tasarımın yöntem metni. IJDesign tamamen açık erişim. ETB231 ile ortak okuma — iki ders arasında köprü kurar.", "u": "https://www.ijdesign.org/index.php/IJDesign/article/view/1965"},
+{"w": "H11 · 2 Ara", "t": "When the Material Grows: Designing (with) Mycelium-based Materials", "a": "Karana, E. vd. (2018), IJDesign 12(2)", "s": "acik", "k": "akademik", "r": "Miselyum vakasının akademik dayanağı. Büyüme, zaman ve belirsizliğin tasarım sürecine dahil edilmesi. Açık erişim.", "u": "https://www.ijdesign.org/index.php/ijdesign/article/view/2918"},
+{"w": "H11 · 2 Ara", "t": "\"Silk Pavilion\"", "a": "MIT Media Lab, Neri Oxman ekibi, 2013", "s": "acik", "k": "vaka", "th": "İnsan-ötesi / malzeme", "o": "Robotik iskelet üzerine binlerce ipekböceğinin ördüğü kubbe; üretimin insan–makine–organizma ortaklığına açılması.", "d": "İpekböceği “ortak” mı, “araç” mı? Türlerarası tasarımda rıza ve refah nasıl düşünülür?", "u": "https://www.oxman.com/projects/silk-pavillion-i"},
+{"w": "H11 · 2 Ara", "t": "Hermès × MycoWorks miselyum çanta", "a": "2021", "s": "acik", "k": "vaka", "th": "İnsan-ötesi / malzeme", "o": "Mantar miselyumundan üretilen malzemenin lüks segmentte klasik bir çanta modeline uygulanması; biyomalzemenin laboratuvardan pazara geçiş işareti.", "d": "Yeni malzeme eski tüketim biçimini sürdürürse ne değişmiş olur? Karana'nın malzeme deneyimi çerçevesiyle çözümleme.", "u": "https://www.mycoworks.com/introducing-sylvania-by-hermes"},
+{"w": "H11 · 2 Ara", "t": "\"PIG 05049\"", "a": "Christien Meindertsma, 2007", "s": "acik", "k": "vaka", "th": "İnsan-ötesi / malzeme", "o": "Tek bir domuzun bedeninin izini süren kitap: mermiden diş macununa 185 ürün. Malzeme zincirlerinin radikal şeffaflaştırılması.", "d": "Bilgi vermek tavır almak mıdır? Tasarım araştırması yargı bildirmeden eleştirel olabilir mi?", "u": "https://www.designboom.com/design/christien-meindertsma-pig-05049-book"},
+{"w": "H12 · 9 Ara", "t": "Innovation and Design in the Age of Artificial Intelligence", "a": "Verganti, R., Vendraminelli, L. &amp; Iansiti, M. (2020), JPIM 37(3)", "s": "ekual", "k": "akademik", "r": "★ H12'nin zorunlu okuması. Wiley — EKUAL kapsamında erişilebilir. Yapay zekânın tasarım sürecinin neresine oturduğunu netleştirir.", "u": "https://scholar.google.com/scholar?q=Verganti+Vendraminelli+Iansiti+Innovation+and+Design+in+the+Age+of+Artificial+Intelligence"},
+{"w": "H12 · 9 Ara", "t": "Kartell + Philippe Starck \"A.I.\" sandalyesi", "a": "2019", "s": "acik", "k": "vaka", "th": "Yapay zekâ", "o": "Üretken tasarım yazılımıyla, minimum malzeme–maksimum dayanım hedefiyle biçimlendirilen ve seri üretime giren ilk sandalyelerden biri.", "d": "Yazara ne kalıyor — kısıtları tanımlamak mı? “Starck imzası” burada neyi imzalıyor?", "u": "https://www.starck.com/a-i-introducing-the-first-chair-created-with-artificial-intelligence-p3801"},
+{"w": "H12 · 9 Ara", "t": "\"Unsupervised\"", "a": "Refik Anadol, MoMA, 2022–2023", "s": "acik", "k": "vaka", "th": "Yapay zekâ", "o": "MoMA koleksiyon verisinin üretken modelle sürekli akan görsel esere dönüştürülmesi; Türkiyeli bir pratiğin küresel yapay zekâ estetiği tartışmasının merkezine oturması.", "d": "Veri görselleştirme, sanat ve tasarım arasındaki sınır; “makine halüsinasyonu” retoriği neyi görünmez kılıyor — emek, enerji, veri kaynağı?", "u": "https://www.moma.org/calendar/exhibitions/5535"},
+{"w": "H12 · 9 Ara", "t": "Getty Images v. Stability AI", "a": "2023– ", "s": "acik", "k": "vaka", "th": "Yapay zekâ", "o": "Stok görsel devinin, modelin kendi arşiviyle izinsiz eğitildiği iddiasıyla açtığı dava; üretken araçların hukuki-etik zemininin kurulduğu süreç.", "d": "“Eğitim verisi emektir” tezinin tasarım mesleğine sonuçları; stilin mülkiyeti olabilir mi?", "u": "https://www.judiciary.uk/judgments/getty-images-v-stability-ai/"},
+{"w": "H13 · 16 Ara", "t": "U.S. Involvement in the Development of Design in the Periphery: Industrial Design Education in Turkey", "a": "Er, H. A., Korkut, F. &amp; Er, Ö. (2003), Design Issues 19(2)", "s": "ekual", "k": "akademik", "r": "★ H13'ün zorunlu okuması. Türkiye tasarım eğitiminin kuruluşunu merkez–çevre ilişkisi üzerinden okur — H10'un dekolonyal çerçevesiyle doğrudan konuşur. ODTÜ açık arşivinde kaydı bulunuyor.", "u": "https://open.metu.edu.tr/handle/11511/100301"},
+{"w": "H13 · 16 Ara", "t": "Existential Antagonisms: Boundary Work and the Professional Ideology of Turkish Industrial Designers", "a": "Ilhan, A.O. & Er, H.A. (2016), Design Issues 32(1), 19–31", "s": "ekual", "k": "akademik", "r": "★ H13'ün ikinci zorunlu okuması. Hakemli; Türkiye'de endüstriyel tasarımcılığın mesleki kimliğini ve sınır çalışmasını inceler — Er/Korkut/Er (2003) ile aynı yazar çizgisinin daha güncel halkası. MIT Press — kütüphane.", "u": "https://doi.org/10.1162/DESI_a_00361"},
+{"w": "H13 · 16 Ara", "t": "Devrim Otomobili", "a": "1961", "s": "acik", "k": "vaka", "th": "Türkiye'de tasarım kültürleri", "o": "Dört buçuk ayda tasarlanıp üretilen yerli otomobil prototipinin “benzin bitti” anlatısıyla ulusal hafızaya başarısızlık olarak kazınması.", "d": "Teknolojik millîlik söylemi tasarımı nasıl araçsallaştırır? Anlatı (mit) ile arşiv (belge) arasındaki fark vaka üzerinde gösterilir.", "u": "https://kureansiklopedi.com/tr/detay/devrim-arabalari-2"},
+{"w": "H13 · 16 Ara", "t": "3. İstanbul Tasarım Bienali, \"Biz İnsan mıyız?\"", "a": "Colomina &amp; Wigley, 2016", "s": "acik", "k": "vaka", "th": "Türkiye'de tasarım kültürleri", "o": "Tasarımın 200.000 yıllık, türü biçimlendiren bir olgu olarak sergilenmesi; bienalin ürün vitrini yerine kuramsal manifesto olarak kurulması.", "d": "Bienal kimin için konuşur? Kuramsal küratörlük yerel tasarım ortamına ne bırakır?", "u": "https://arewehuman.iksv.org/exhibition/"},
+{"w": "H13 · 16 Ara", "t": "Arçelik \"Telve\" Türk kahvesi makinesi", "a": "2000'ler", "s": "acik", "k": "vaka", "th": "Türkiye'de tasarım kültürleri", "o": "Geleneksel bir ritüelin (cezve, köpük, telve) elektrikli ev aletine çevrilmesi ve kategorinin Türkiye pazarında kurulması.", "d": "Gelenek “özellik setine” çevrilebilir mi? Kültürel ürünün ihracatta okunabilirliği sorunu.", "u": "https://www.arcelik.com.tr/blog/telve-20-yasinda"},
+{"w": "TAKİP", "t": "International Journal of Design", "a": "IJDesign", "s": "acik", "k": "akademik", "r": "Tamamen açık erişim. Bu dersin en güvenilir ücretsiz akademik cephesi.", "u": "https://www.ijdesign.org/"},
+{"w": "TAKİP", "t": "She Ji: The Journal of Design, Economics, and Innovation", "a": "Elsevier / Tongji", "s": "acik", "k": "akademik", "r": "Tamamen açık erişim. Kuramsal tartışmanın en güncel cephesi.", "u": "https://www.sciencedirect.com/journal/she-ji-the-journal-of-design-economics-and-innovation"},
+{"w": "TAKİP", "t": "Design Issues", "a": "MIT Press Journals", "s": "ekual", "k": "akademik", "r": "Alanın kurucu dergisi — Buchanan, Er/Korkut/Er ve daha fazlası burada. Kütüphane / JSTOR.", "u": "https://direct.mit.edu/desi"},
+{"w": "TAKİP", "t": "Design Studies", "a": "Elsevier", "s": "ekual", "k": "akademik", "r": "Yöntem ve kuram cephesi. ScienceDirect — EKUAL.", "u": "https://www.sciencedirect.com/journal/design-studies"},
+{"w": "TAKİP", "t": "Design and Culture", "a": "Taylor &amp; Francis", "s": "ekual", "k": "akademik", "r": "Tasarım kültürü ve Transition Design tartışmalarının yayın yeri. Kütüphane.", "u": "https://www.tandfonline.com/journals/rfdc20"},
+{"w": "TAKİP", "t": "CoDesign", "a": "Taylor &amp; Francis", "s": "ekual", "k": "akademik", "r": "Katılımcı ve ortak tasarım cephesi. Kütüphane.", "u": "https://www.tandfonline.com/journals/ncdn20"}
 ];
+let fS=new Set(), fW=new Set(), fK=new Set(), fQ="";
 
-/* ═══════ KAYNAKLAR ═══════ */
-const K=[
-/* ÇEKİRDEK */
-{w:"ÇEKİRDEK",t:"Design Justice: Community-Led Practices to Build the Worlds We Need",a:"Costanza-Chock, S. (2020), MIT Press",s:"acik",k:"ok",r:"★ Alanın en önemli açık erişim kitabı. Gold OA — tam metin ücretsiz. H9'un çekirdek okuması hiçbir abonelik gerektirmiyor.",u:"https://direct.mit.edu/books/oa-monograph/4605/Design-JusticeCommunity-Led-Practices-to-Build-the"},
-{w:"ÇEKİRDEK",t:"Design Justice — çevrimiçi okuma sürümü",a:"MIT Press / PubPub",s:"acik",k:"ok",r:"Aynı kitabın tarayıcıda bölüm bölüm okunabilen sürümü. Tarayıcıda okumanın en pratik yolu.",u:"https://designjustice.mitpress.mit.edu/"},
-{w:"ÇEKİRDEK",t:"Speculative Everything: Design, Fiction, and Social Dreaming",a:"Dunne, A. &amp; Raby, F. (2013 / yeni önsözlü baskı)",s:"satin",k:"ok",r:"H7'nin ana kitabı. 1–3. bölümler okunur. Yeni baskı ISBN 9780262548687.",u:"https://mitpressbookstore.mit.edu/book/9780262548687"},
-{w:"ÇEKİRDEK",t:"Designs for the Pluriverse",a:"Escobar, A. (2018), Duke University Press",s:"satin",k:"ok",r:"H10'un ana kitabı. İngilizce baskı ücretli; 2016 tarihli İspanyolca öncülü <b>Autonomía y diseño</b> Creative Commons lisanslıdır — İspanyolca okuyan öğrenci için ücretsiz rota.",u:"https://www.dukeupress.edu/designs-for-the-pluriverse"},
-{w:"ÇEKİRDEK",t:"Decolonizing Design: A Cultural Justice Guidebook",a:"Tunstall, E. (Dori) (2023), MIT Press",s:"ekual",k:"ok",r:"Açık erişim değil, ama MIT Press Direct'te bölüm PDF'leri görüntülenebiliyor. 136 sayfa — kısa ve öğrenci dostu.",u:"https://direct.mit.edu/books/book/5534/Decolonizing-DesignA-Cultural-Justice-Guidebook"},
-{w:"ÇEKİRDEK",t:"Design, When Everybody Designs",a:"Manzini, E. (2015), MIT Press",s:"satin",k:"ara",r:"H6'nın sosyal inovasyon ayağı. Seçme bölümler okunur. ISBN 9780262028608.",u:"https://mitpress.mit.edu/9780262028608/design-when-everybody-designs/"},
-{w:"ÇEKİRDEK",t:"Design for the Real World, 3. baskı",a:"Papanek, V. (1971 / 2019), Thames &amp; Hudson",s:"satin",k:"ok",r:"H5'in tarihsel dayanağı. Yalnızca giriş bölümü okunur. ISBN 9780500295335.",u:"https://www.thamesandhudson.com/products/design-for-the-real-world"},
-{w:"ÇEKİRDEK",t:"The Culture of Design, 3. baskı",a:"Julier, G. (2013), Sage",s:"satin",k:"ok",r:"H13'ün çerçeve kitabı. Tasarımın söylemsel alanı — bienal, müze, yayın. ISBN 9781446273593.",u:"https://uk.sagepub.com/en-gb/eur/the-culture-of-design/book241122"},
-/* H1 */
-{w:"H2",t:"Wicked Problems in Design Thinking",a:"Buchanan, R. (1992), Design Issues 8(2), 5–21",s:"ekual",k:"ok",r:"★ H2'nin zorunlu okuması. Dersin tüm dönem boyunca döneceği kavramın kaynak metni. JSTOR — kütüphane erişimi.",u:"https://www.jstor.org/stable/1511637"},
-{w:"H2",t:"Incremental and Radical Innovation: Design Research vs. Technology and Meaning Change",a:"Norman, D. &amp; Verganti, R. (2014), Design Issues 30(1)",s:"ekual",k:"ara",r:"HCD'nin ne yapabildiğini ve ne yapamadığını netleştirir. Politecnico di Milano açık arşivinde ücretsiz kopyası var.",u:"https://doi.org/10.1162/DESI_a_00244"},
-/* H2 */
-{w:"H3",t:"Rethinking Design Thinking: Part I",a:"Kimbell, L. (2011), Design and Culture 3(3), 285–306",s:"ekual",k:"ok",r:"★ H3'ün zorunlu okuması. Hakemli; design thinking'i bilişsel stil, genel tasarım kuramı ve örgütsel kaynak olarak üç hesap üzerinden eleştirir. Taylor & Francis — kütüphane.",u:"https://doi.org/10.2752/175470811X13071166525216"},
-{w:"H3",t:"Doing Design Thinking: Conceptual Review, Synthesis, and Research Agenda",a:"Micheli, P., Wilner, S.J.S., Bhatti, S.H., Mura, M. & Beverland, M.B. (2019), JPIM 36(2), 124–148",s:"ekual",k:"ok",r:"★ H3'ün ikinci zorunlu okuması. Hakemli sistematik derleme; savunucular ile eleştirmenler arasındaki ayrışmayı kanıta dayalı biçimde haritalar. Wiley — kütüphane.",u:"https://doi.org/10.1111/jpim.12466"},
-/* H3 */
-{w:"H4",t:"Towards User Design? On the Shift from Object to User as the Subject of Design",a:"Redström, J. (2006), Design Studies 27(2)",s:"ekual",k:"ara",r:"“Kullanıcı” kavramının kendisini sorunsallaştırır — H4'ün eleştirel dönüş noktası. ScienceDirect — EKUAL; Redström'ün kurumsal deposunda önsürüm var.",u:"https://www.semanticscholar.org/paper/Towards-user-design-On-the-shift-from-object-to-as-Redstr%C3%B6m/6f1ff02f63cf6543ba67824e6e8ad27c9e4b0bd0"},
-{w:"H4",t:"The Design of Everyday Things, gözden geçirilmiş baskı",a:"Norman, D. (2013), Basic Books / MIT Press",s:"satin",k:"ara",r:"Yalnızca 1. bölüm okunur. Türkçe çevirisi mevcuttur.",u:"https://mitpress.mit.edu/9780262525671/the-design-of-everyday-things/"},
-/* H4 */
-{w:"H4",t:"Co-creation and the New Landscapes of Design",a:"Sanders, E. B.-N. &amp; Stappers, P. J. (2008), CoDesign 4(1)",s:"ekual",k:"ara",r:"★ H4'ün zorunlu okuması (katılımcı tasarım ayağı). Alanın en çok atıf alan metinlerinden. TU Delft kurumsal deposunda ücretsiz sürüm var.",u:"https://doi.org/10.1080/15710880701875068"},
-{w:"H4",t:"A Ladder of Citizen Participation",a:"Arnstein, S. R. (1969), JAIP 35(4)",s:"ekual",k:"ara",r:"Katılım merdiveni — “sözde katılım” tartışmasının kaynağı. Tasarım dışından ama derse en çok yarayan metin; çok sayıda ücretsiz kopyası dolaşımda.",u:"https://doi.org/10.1080/01944366908977225"},
-/* H5 */
-{w:"H5",t:"Evolution of Design for Sustainability: From Product Design to Design for System Innovations and Transitions",a:"Ceschin, F. & Gaziulusoy, I. (2016), Design Studies 47, 118–163",s:"ekual",k:"ok",r:"★ H5'ün ikinci zorunlu okuması. Hakemli; sürdürülebilir tasarımın üründen sosyo-teknik sisteme uzanan evrimini dört düzeyde haritalar. 1400+ atıf. Elsevier — kütüphane.",u:"https://doi.org/10.1016/j.destud.2016.09.002"},
-/* H6 */
-{w:"H6",t:"Transition Design: A Proposal for a New Area of Design Practice, Study, and Research",a:"Irwin, T. (2015), Design and Culture 7(2), 229–246",s:"ekual",k:"ok",r:"★ H6'nın zorunlu okuması. Taylor &amp; Francis — kütüphane.",u:"https://doi.org/10.1080/17547075.2015.1051829"},
-{w:"H6",t:"Transition Design Provocation",a:"Irwin, T., Kossoff, G. & Tonkinwise, C. (2015), Design Philosophy Papers 13(1), 3–11",s:"ekual",k:"ok",r:"★ H6'nın ikinci zorunlu okuması. Hakemli; Transition Design sempozyumunun kurucu çerçeve metni. Taylor & Francis — kütüphane; açık erişim kopyası kurumsal depoda mevcut.",u:"https://doi.org/10.1080/14487136.2015.1085688"},
-/* H7 */
-{w:"H7",t:"How We Intend to Future",a:"Tonkinwise, C. (2014), Design Philosophy Papers 12(2)",s:"ekual",k:"ara",r:"Spekülatif tasarıma içeriden gelen en keskin eleştiri. Taylor &amp; Francis — kütüphane.",u:"https://doi.org/10.2752/144871314X14159818597676"},
-/* H8 */
-{w:"H8",t:"The Process of Social Innovation",a:"Mulgan, G. (2006), Innovations: Technology, Governance, Globalization 1(2), 145–162",s:"ekual",k:"ok",r:"★ H8'in zorunlu okuması. Hakemli; sosyal inovasyonun süreç modelini kurar.",u:"https://doi.org/10.1162/itgg.2006.1.2.145"},
-{w:"H8",t:"Design Activism: Beautiful Strangeness for a Sustainable World",a:"Fuad-Luke, A. (2009), Routledge",s:"satin",k:"ara",r:"Seçme bölüm okunur.",u:"https://www.routledge.com/Design-Activism-Beautiful-Strangeness-for-a-Sustainable-World/Fuad-Luke/p/book/9781844076451"},
-/* H9 */
-{w:"H9",t:"Gender Shades: Intersectional Accuracy Disparities in Commercial Gender Classification",a:"Buolamwini, J. &amp; Gebru, T. (2018), PMLR 81",s:"acik",k:"ara",r:"★ Tam açık erişim. Tasarım adaletinin ölçülebilir kanıtı — “önyargı” tartışmasını duygudan veriye taşır. gendershades.org sitesinde görsel özeti de var.",u:"https://proceedings.mlr.press/v81/buolamwini18a.html"},
-{w:"H9",t:"Feminist HCI: Taking Stock and Outlining an Agenda for Design",a:"Bardzell, S. (2010), Proceedings of the SIGCHI Conference (CHI 2010), 1301–1310",s:"ekual",k:"ok",r:"★ H9'un ikinci zorunlu okuması. Hakemli; ACM CHI konferans bildirisi (alanın en sıkı hakem sürecine sahip venue'lerinden biri). Feminist kuramı tasarım kriterine çevirir. 2000+ atıf.",u:"https://doi.org/10.1145/1753326.1753521"},
-/* H10 */
-{w:"H10",t:"On Decolonizing Design",a:"Tlostanova, M. (2017), Design Philosophy Papers 15(1), 51–61",s:"ekual",k:"ok",r:"Kısa ve yoğun; Escobar'a giriş olarak kitaptan daha uygun. Taylor &amp; Francis — kütüphane.",u:"https://doi.org/10.1080/14487136.2017.1301017"},
-{w:"H10",t:"What Is at Stake with Decolonizing Design? A Roundtable",a:"Schultz, T., Abdulla, D., Ansari, A. vd. (2018), Design and Culture 10(1), 81–101",s:"ekual",k:"ok",r:"★ H10'un ikinci zorunlu okuması. Hakemli; Decolonising Design grubunun sekiz kurucu üyesinin ortak yazısı. Taylor & Francis — kütüphane; açık erişim kopyası UAL arşivinde mevcut.",u:"https://doi.org/10.1080/17547075.2018.1434368"},
-/* H11 */
-{w:"H11",t:"Posthumanism and Design",a:"Forlano, L. (2017), She Ji 3(1), 16–29",s:"acik",k:"ok",r:"★ H11'in zorunlu okuması. She Ji tamamen açık erişim — PDF doğrudan iniyor. ANT'den yeni materyalizme alanın haritasını çıkarıyor.",u:"https://doi.org/10.1016/j.sheji.2017.08.001"},
-{w:"H11",t:"Material Driven Design (MDD): A Method to Design for Material Experiences",a:"Karana, E., Barati, B., Rognoli, V. &amp; Zeeuw van der Laan, A. (2015), IJDesign 9(2)",s:"acik",k:"ok",r:"★ Malzeme odaklı tasarımın yöntem metni. IJDesign tamamen açık erişim. ETB231 ile ortak okuma — iki ders arasında köprü kurar.",u:"https://www.ijdesign.org/index.php/IJDesign/article/view/1965"},
-{w:"H11",t:"When the Material Grows: Designing (with) Mycelium-based Materials",a:"Karana, E. vd. (2018), IJDesign 12(2)",s:"acik",k:"ok",r:"Miselyum vakasının akademik dayanağı. Büyüme, zaman ve belirsizliğin tasarım sürecine dahil edilmesi. Açık erişim.",u:"https://www.ijdesign.org/index.php/ijdesign/article/view/2918"},
-/* H12 */
-{w:"H12",t:"Innovation and Design in the Age of Artificial Intelligence",a:"Verganti, R., Vendraminelli, L. &amp; Iansiti, M. (2020), JPIM 37(3)",s:"ekual",k:"ara",r:"★ H12'nin zorunlu okuması. Wiley — EKUAL kapsamında erişilebilir. Yapay zekânın tasarım sürecinin neresine oturduğunu netleştirir.",u:"https://scholar.google.com/scholar?q=Verganti+Vendraminelli+Iansiti+Innovation+and+Design+in+the+Age+of+Artificial+Intelligence"},
-/* H13 */
-{w:"H13",t:"U.S. Involvement in the Development of Design in the Periphery: Industrial Design Education in Turkey",a:"Er, H. A., Korkut, F. &amp; Er, Ö. (2003), Design Issues 19(2)",s:"ekual",k:"ara",r:"★ H13'ün zorunlu okuması. Türkiye tasarım eğitiminin kuruluşunu merkez–çevre ilişkisi üzerinden okur — H10'un dekolonyal çerçevesiyle doğrudan konuşur. ODTÜ açık arşivinde kaydı bulunuyor.",u:"https://open.metu.edu.tr/handle/11511/100301"},
-{w:"H13",t:"Existential Antagonisms: Boundary Work and the Professional Ideology of Turkish Industrial Designers",a:"Ilhan, A.O. & Er, H.A. (2016), Design Issues 32(1), 19–31",s:"ekual",k:"ok",r:"★ H13'ün ikinci zorunlu okuması. Hakemli; Türkiye'de endüstriyel tasarımcılığın mesleki kimliğini ve sınır çalışmasını inceler — Er/Korkut/Er (2003) ile aynı yazar çizgisinin daha güncel halkası. MIT Press — kütüphane.",u:"https://doi.org/10.1162/DESI_a_00361"},
-/* TAKİP */
-{w:"TAKİP",t:"International Journal of Design",a:"IJDesign",s:"acik",k:"ok",r:"Tamamen açık erişim. Bu dersin en güvenilir ücretsiz akademik cephesi.",u:"https://www.ijdesign.org/"},
-{w:"TAKİP",t:"She Ji: The Journal of Design, Economics, and Innovation",a:"Elsevier / Tongji",s:"acik",k:"ara",r:"Tamamen açık erişim. Kuramsal tartışmanın en güncel cephesi.",u:"https://www.sciencedirect.com/journal/she-ji-the-journal-of-design-economics-and-innovation"},
-{w:"TAKİP",t:"Design Issues",a:"MIT Press Journals",s:"ekual",k:"ara",r:"Alanın kurucu dergisi — Buchanan, Er/Korkut/Er ve daha fazlası burada. Kütüphane / JSTOR.",u:"https://direct.mit.edu/desi"},
-{w:"TAKİP",t:"Design Studies",a:"Elsevier",s:"ekual",k:"ara",r:"Yöntem ve kuram cephesi. ScienceDirect — EKUAL.",u:"https://www.sciencedirect.com/journal/design-studies"},
-{w:"TAKİP",t:"Design and Culture",a:"Taylor &amp; Francis",s:"ekual",k:"ara",r:"Tasarım kültürü ve Transition Design tartışmalarının yayın yeri. Kütüphane.",u:"https://www.tandfonline.com/journals/rfdc20"},
-{w:"TAKİP",t:"CoDesign",a:"Taylor &amp; Francis",s:"ekual",k:"ara",r:"Katılımcı ve ortak tasarım cephesi. Kütüphane.",u:"https://www.tandfonline.com/journals/ncdn20"}
-];
-
-/* ═══════ SEKMELER ═══════ */
-document.querySelectorAll("button.tab").forEach(b=>{
-  b.addEventListener("click",()=>{
-    document.querySelectorAll("button.tab").forEach(x=>x.setAttribute("aria-selected","false"));
-    b.setAttribute("aria-selected","true");
-    document.querySelectorAll(".panel").forEach(p=>p.hidden=true);
-    document.getElementById(b.dataset.p).hidden=false;
-    window.scrollTo({top:0,behavior:"instant"});
-  });
-});
-
-/* ═══════ HAFTA LİSTESİ ═══════ */
-let qw="";
-document.getElementById("qw").addEventListener("input",e=>{
-  qw=e.target.value.trim().toLocaleLowerCase("tr");renderW();
-});
-function renderW(){
-  const out=W.filter(d=>{
-    if(!qw)return true;
-    return (d.n+" "+d.dt+" "+d.t+" "+(d.only?"":d.s+" "+d.r+" "+d.v)).toLocaleLowerCase("tr").includes(qw);
-  });
-  document.getElementById("lw").innerHTML = out.length ? out.map(d=>`
-    <div class="item">
-      <div class="spine"><b>${d.n}</b><span style="display:block;margin-top:4px">${d.dt}</span></div>
-      <div class="meat">
-        <div class="head" style="${d.only?'margin-bottom:0':''}"><h3 class="title">${d.t}</h3></div>${d.only?'':`
-        <p class="route"><span class="lab">Alt başlıklar</span>${d.s}</p>
-        <p class="route"><span class="lab">Çekirdek okumalar</span>${d.r}</p>
-        <p class="route" style="margin-bottom:0"><span class="lab">Vakalar</span>${d.v}</p>`}
-      </div>
-    </div>`).join("") : `<p class="empty">Bu aramayla eşleşen hafta yok.</p>`;
-  document.getElementById("cw").textContent=`${out.length} hafta`;
-}
-
-/* ═══════ VAKA LİSTESİ ═══════ */
-let fT=new Set(), qv="";
-const themes=[...new Set(V.map(d=>d.th))];
-const vtBox=document.getElementById("vt");
-themes.forEach(t=>{
-  const b=document.createElement("button");
-  b.className="f";b.dataset.k="t";b.dataset.v=t;b.textContent=t;
-  b.setAttribute("aria-pressed","false");vtBox.appendChild(b);
-});
-document.getElementById("qv").addEventListener("input",e=>{
-  qv=e.target.value.trim().toLocaleLowerCase("tr");renderV();
-});
-function renderV(){
-  const out=V.filter(d=>{
-    if(fT.size&&!fT.has(d.th))return false;
-    if(qv&&!(d.t+" "+d.a+" "+d.o+" "+d.d+" "+d.th+" "+d.w).toLocaleLowerCase("tr").includes(qv))return false;
-    return true;
-  });
-  document.getElementById("lv").innerHTML = out.length ? out.map(d=>`
-    <div class="item">
-      <div class="spine"><b>${d.w}</b></div>
-      <div class="meat">
-        <div class="head">
-          <h3 class="title">${d.t}</h3>
-          <span class="chip ghost">${d.th}</span>
-        </div>
-        <p class="by">${d.a}</p>
-        <p class="route"><span class="lab">Ne oldu</span>${d.o}</p>
-        <p class="route"><span class="lab">Tartışma ekseni</span>${d.d}</p>
-        <a class="go" href="${d.u}" target="_blank" rel="noopener">${d.u}</a>
-      </div>
-    </div>`).join("") : `<p class="empty">Bu filtrelerle eşleşen vaka yok.</p>`;
-  document.getElementById("cv").textContent=`${out.length} vaka · ${new Set(out.map(d=>d.th)).size} tema`;
-}
-
-/* ═══════ KAYNAK LİSTESİ ═══════ */
-let fS=new Set(), fW=new Set(), qk="";
-const kweeks=[...new Set(K.map(d=>d.w))];
-const kwBox=document.getElementById("kw");
-kweeks.forEach(w=>{
+const wkKey=w=>w==='ÇEKİRDEK'?0:(w==='TAKİP'?99:parseInt(w.slice(1)));
+const weeks=[...new Set(D.flatMap(d=>[d.w,d.w2].filter(Boolean)))].sort((a,b)=>wkKey(a)-wkKey(b));
+const wkBox=document.getElementById("wk");
+weeks.forEach(w=>{
   const b=document.createElement("button");
   b.className="f";b.dataset.k="w";b.dataset.v=w;b.textContent=w;
-  b.setAttribute("aria-pressed","false");kwBox.appendChild(b);
+  b.setAttribute("aria-pressed","false");
+  wkBox.appendChild(b);
 });
-document.getElementById("qk").addEventListener("input",e=>{
-  qk=e.target.value.trim().toLocaleLowerCase("tr");renderK();
-});
+
 document.addEventListener("click",e=>{
   const b=e.target.closest("button.f");
   if(!b)return;
   const on=b.getAttribute("aria-pressed")==="true";
   b.setAttribute("aria-pressed",String(!on));
-  const k=b.dataset.k;
-  const set = k==="s"?fS : k==="w"?fW : fT;
+  const set=b.dataset.k==="s"?fS:(b.dataset.k==="k"?fK:fW);
   on?set.delete(b.dataset.v):set.add(b.dataset.v);
-  if(k==="t")renderV(); else renderK();
+  render();
 });
-function renderK(){
-  const out=K.filter(d=>{
+document.getElementById("q").addEventListener("input",e=>{
+  fQ=e.target.value.trim().toLocaleLowerCase("tr");render();
+});
+
+/* ── haftalık program tablosu render + tıklayınca filtrele ── */
+const schedBody=document.getElementById("schedBody");
+schedBody.innerHTML = SCHED.map(s=>`
+  <tr class="sched-row" data-w="${s.w}">
+    <td class="wk">${s.w}</td>
+    <td class="topic">${s.topic}</td>
+    <td class="kazanim hide-sm">${s.kaz||""}</td>
+  </tr>`).join("");
+
+schedBody.addEventListener("click", e=>{
+  const row=e.target.closest("tr.sched-row");
+  if(!row)return;
+  const w=row.dataset.w;
+  const hasSource = D.some(d=>d.w===w||d.w2===w);
+  document.querySelectorAll(".sched-row").forEach(r=>r.classList.remove("active"));
+  if(!hasSource){
+    // bu haftaya ait kaynak yok — yalnızca bilgi ver, filtre uygulama
+    row.classList.add("active");
+    fW.clear();
+    render();
+    document.getElementById("list").innerHTML =
+      `<p class="empty">${w} için ayrı bir kaynak yok.</p>`;
+    document.getElementById("count").textContent = "";
+    return;
+  }
+  const btn=[...wkBox.children].find(b=>b.dataset.v===w);
+  const already = fW.has(w) && fW.size===1;
+  fW.clear();
+  document.querySelectorAll('#wk button').forEach(b=>b.setAttribute("aria-pressed","false"));
+  if(!already){
+    fW.add(w);
+    if(btn) btn.setAttribute("aria-pressed","true");
+    row.classList.add("active");
+    document.querySelector(".controls").scrollIntoView({behavior:"smooth",block:"start"});
+  }
+  render();
+});
+
+function render(){
+  const out=D.filter(d=>{
     if(fS.size&&!fS.has(d.s))return false;
-    if(fW.size&&!fW.has(d.w))return false;
-    if(qk&&!(d.t+" "+d.a+" "+d.r+" "+d.w).toLocaleLowerCase("tr").includes(qk))return false;
+    if(fK.size&&!fK.has(d.k))return false;
+    if(fW.size&&!fW.has(d.w)&&!(d.w2&&fW.has(d.w2)))return false;
+    if(fQ){
+      const hay=[d.t,d.a,d.r,d.o,d.d,d.th,d.w,d.w2].filter(Boolean).join(" ").toLocaleLowerCase("tr");
+      if(!hay.includes(fQ))return false;
+    }
     return true;
   });
-  document.getElementById("lk").innerHTML = out.length ? out.map(d=>`
+  const L=document.getElementById("list");
+  L.innerHTML = out.length ? out.map(d=>`
     <div class="item">
-      <div class="spine"><b>${d.w}</b></div>
+      <div class="spine"><b>${d.w}</b>${d.w2?"<b>+ "+d.w2.split(" · ")[0]+"</b>":""}</div>
       <div class="meat">
         <div class="head">
           <h3 class="title">${d.t}</h3>
+          <span class="kchip ${d.k}">${K[d.k]}</span>
           <span class="chip ${d.s}">${S[d.s]}</span>
         </div>
         <p class="by">${d.a}</p>
-        <p class="route">${d.r}</p>
-        <a class="go" href="${d.u}" target="_blank" rel="noopener">${d.u}</a>
+        ${d.k==="vaka"
+          ? `<p class="route"><span class="lab">Ne oldu</span>${d.o}</p><p class="route"><span class="lab">Tartışma ekseni</span>${d.d}</p>`
+          : `<p class="route">${d.r}</p>`}
+        ${d.u ? `<a class="go" href="${d.u}" target="_blank" rel="noopener">${d.u}</a>` : ``}
       </div>
     </div>`).join("") : `<p class="empty">Bu filtrelerle eşleşen kaynak yok.</p>`;
-  const n={acik:0,ekual:0,satin:0,kurum:0};
-  out.forEach(d=>n[d.s]++);
-  document.getElementById("ck").textContent =
-    `${out.length} kaynak · ${n.acik} açık · ${n.ekual} EKUAL/kütüphane · ${n.satin} satın alma · ${n.kurum} kurum`;
-}
 
-renderW();renderV();renderK();
+  const n={acik:0,ekual:0,satin:0}, m={akademik:0,vaka:0};
+  out.forEach(d=>{n[d.s]++;m[d.k]++});
+  document.getElementById("count").textContent =
+    `${out.length} kaynak · ${m.akademik} akademik · ${m.vaka} vaka  —  ${n.acik} açık · ${n.ekual} EKUAL/kütüphane · ${n.satin} satın alma`;
+}
+render();
 </script>
 </body>
 </html>
