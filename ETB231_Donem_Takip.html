@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ETB231 · Kaynak Erişim Paneli</title>
+<style>
+:root{
+  /* ETB231 ders paleti (H04 sunumundan) */
+  --butter:#FFED9E; --twilight:#426BC2; --leaves:#4A9166; --sky:#A6CFF2;
+  --blossom:#F2C0CA; --forest:#124224; --cloud:#F7F2E8; --apple:#A6BA1A;
+  --paper:#FFFFFF; --ink:#1A1A1A; --mute:#6B6B6B; --rule:#D9D3C4;
+  --disp:"Bookman Old Style","Bookman","URW Bookman","Bookman URW",Georgia,serif;
+  --body:Calibri,Carlito,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --mono:"Courier New",Courier,"Liberation Mono",monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px 80px}
+
+/* ── başlık: kicker + Bookman + damga kutusu + kayıt işaretleri ── */
+header{position:relative;padding:44px 0 24px;border-bottom:1px solid var(--forest)}
+header .reg{position:absolute;font-family:var(--mono);font-size:15px;line-height:1;color:var(--forest)}
+header .reg.tl{left:-14px;top:10px} header .reg.tr{right:-14px;top:10px}
+header .reg.bl{left:-14px;bottom:-9px} header .reg.br{right:-14px;bottom:-9px}
+.stamp{
+  position:absolute;right:0;top:18px;border:1px solid var(--forest);background:#fff;
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--forest);padding:6px 16px;white-space:nowrap
+}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--twilight);margin:0 0 14px}
+h1{font-family:var(--disp);font-weight:700;font-size:clamp(28px,4.6vw,40px);letter-spacing:-.01em;line-height:1.15;color:var(--forest);margin:0 0 12px}
+.sub{font-size:18px;font-weight:700;color:var(--ink);margin:0;max-width:62ch;line-height:1.4}
+
+/* ── iki kutu motifi: dolu kutu + kesik çizgili kutu ── */
+.rule-box{margin:14px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:760px){.rule-box{grid-template-columns:1fr}}
+.rule-item{padding:16px 18px;border:1px solid var(--forest)}
+.rule-item.a{background:var(--sky)} .rule-item.r{background:var(--butter)} .rule-item.v{background:var(--blossom)}
+.rule-item b{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--forest);margin-bottom:7px}
+.rule-item p{margin:0;font-size:14px;color:var(--ink)}
+
+.finds{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0 0}
+@media(max-width:820px){.finds{grid-template-columns:1fr}}
+.find{background:var(--cloud);border:1px solid var(--forest);padding:16px 18px}
+.find.pol{background:#fff;border:1px dashed var(--forest)}
+.find .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--twilight);display:block;margin-bottom:8px}
+.find h3{font-family:var(--disp);font-size:15.5px;font-weight:700;color:var(--forest);margin:0 0 6px;line-height:1.3}
+.find p{margin:0;font-size:14px;color:var(--ink)}
+
+/* ── haftalık program: sert köşeli tablo ── */
+.schedule{margin-top:36px}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--twilight);margin:0 0 6px}
+.schedule h2,.tools h2{font-family:var(--disp);font-weight:700;font-size:24px;color:var(--forest);margin:0 0 6px;line-height:1.2}
+.schedule .note,.tools .note{font-size:14.5px;color:var(--mute);margin:0 0 14px;max-width:70ch}
+.sched-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--forest)}
+.sched-table th{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  text-align:left;padding:9px 12px;background:var(--forest);color:#fff;font-weight:700
+}
+.sched-row{cursor:pointer;border-top:1px solid var(--forest);background:var(--cloud)}
+.sched-row:nth-child(even){background:#fff}
+.sched-row:hover{background:var(--sky)}
+.sched-row.active{background:var(--butter)}
+.sched-row td{padding:10px 12px;vertical-align:top;font-size:14px}
+.sched-row .wk{font-family:var(--mono);font-size:12px;font-weight:700;white-space:nowrap;color:var(--forest)}
+.sched-row .topic{font-weight:700;color:var(--ink)}
+.sched-row .kazanim{color:var(--ink);font-size:13.5px}
+
+/* ── filtre çubuğu ── */
+.controls{position:sticky;top:0;z-index:10;background:#fff;padding:16px 0 12px;border-bottom:1px solid var(--forest);margin-top:36px}
+.row{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:9px}
+.row:last-child{margin-bottom:0}
+.lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--forest);font-weight:700;width:74px;flex-shrink:0}
+button.f{
+  font-family:var(--mono);font-size:11px;letter-spacing:.04em;padding:5px 11px;
+  border:1px solid var(--forest);background:#fff;color:var(--forest);cursor:pointer;border-radius:0
+}
+button.f:hover{background:var(--cloud)}
+button.f[aria-pressed="true"]{background:var(--forest);color:#fff}
+button.f.acik[aria-pressed="true"]{background:var(--apple);color:var(--forest);font-weight:700}
+button.f.ekual[aria-pressed="true"]{background:var(--twilight);color:#fff}
+button.f.satin[aria-pressed="true"]{background:var(--forest);color:#fff}
+button.f.standart[aria-pressed="true"]{background:var(--cloud);color:var(--forest);border-style:dashed;font-weight:700;box-shadow:inset 0 0 0 1px var(--forest)}
+button.f.kA[aria-pressed="true"]{background:var(--sky);color:var(--forest);font-weight:700}
+button.f.kR[aria-pressed="true"]{background:var(--butter);color:var(--forest);font-weight:700}
+button.f.kV[aria-pressed="true"]{background:var(--blossom);color:var(--forest);font-weight:700}
+input#q{flex:1;min-width:190px;font-family:var(--body);font-size:15px;padding:6px 11px;border:1px solid var(--forest);background:#fff;color:var(--ink);border-radius:0}
+input#q:focus{outline:2px solid var(--twilight);outline-offset:1px}
+.count{font-family:var(--mono);font-size:11px;color:var(--mute);padding-top:8px}
+
+/* ── kaynak listesi: veri sayfası satırları ── */
+.list{margin-top:14px}
+.item{display:grid;grid-template-columns:112px 1fr;background:#fff;border:1px solid var(--forest);margin-top:-1px}
+.spine{font-family:var(--mono);font-size:10.5px;letter-spacing:.03em;padding:14px 8px 14px 12px;color:var(--mute);background:var(--cloud);border-right:1px solid var(--forest)}
+.spine b{display:block;color:var(--forest);font-size:12px;font-weight:700;margin-bottom:2px}
+.meat{padding:13px 18px 15px}
+.head{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;margin-bottom:5px}
+.title{font-family:var(--disp);font-size:16px;font-weight:700;color:var(--forest);line-height:1.3;margin:0}
+.chip,.kchip{
+  font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:2px 7px;border:1px solid var(--forest);color:var(--forest);border-radius:0;flex-shrink:0;white-space:nowrap
+}
+.chip.acik{background:var(--apple)}
+.chip.ekual{background:var(--twilight);color:#fff}
+.chip.satin{background:var(--forest);color:#fff}
+.chip.standart{background:var(--cloud);border-style:dashed}
+.kchip.akademik{background:var(--sky)}
+.kchip.resmi{background:var(--butter)}
+.kchip.vaka{background:var(--blossom)}
+.by{font-family:var(--mono);font-size:12px;color:var(--mute);margin:0 0 7px;font-style:italic}
+.route{font-size:14.5px;color:var(--ink);margin:0 0 9px}
+.route b{font-weight:700;color:var(--forest)}
+a.go{font-family:var(--mono);font-size:11px;color:var(--twilight);text-decoration:none;border-bottom:1px solid var(--twilight);padding-bottom:1px;word-break:break-all}
+a.go:hover{background:var(--butter);color:var(--forest);border-color:var(--forest)}
+.empty{padding:40px 8px;color:var(--mute);font-family:var(--mono);font-size:13px}
+
+/* ── araçlar ── */
+.tools{margin-top:44px}
+.tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:820px){.tool-grid{grid-template-columns:1fr}}
+.tool{background:#fff;border:1px solid var(--forest);padding:16px 18px}
+.tool h3{font-family:var(--disp);font-size:15px;font-weight:700;color:var(--forest);margin:0 0 6px}
+.tool p{font-size:13.5px;color:var(--ink);margin:0 0 8px}
+.tool a{font-family:var(--mono);font-size:10.5px;color:var(--twilight);word-break:break-all}
+
+/* ── altbilgi: KAYNAK etiketi ── */
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--rule);font-size:13.5px;color:var(--ink)}
+footer p{margin:0 0 8px}
+footer b{color:var(--forest)}
+.src-line{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:20px;padding-top:10px;border-top:1px solid var(--rule);font-family:var(--mono);font-size:10.5px;color:var(--mute)}
+.src-line b{color:var(--forest);letter-spacing:.14em;margin-right:8px}
+.src-line i{font-style:italic}
+@media print{.controls{position:static} button.f{display:none} .item{break-inside:avoid} .stamp{position:static;display:inline-block;margin-bottom:10px}}
+@media(max-width:720px){
+  .sched-table .hide-sm{display:none}
+  .stamp{position:static;display:inline-block;margin-bottom:14px}
+  header .reg{display:none}
+  .item{grid-template-columns:1fr}
+  .spine{border-right:0;border-bottom:1px solid var(--forest);display:flex;gap:10px;padding:8px 12px}
+  .spine b{margin:0}
+  .lbl{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="reg tl">+</span><span class="reg tr">+</span><span class="reg bl">+</span><span class="reg br">+</span>
+  <div class="stamp">ETB231 / KAYNAK PANELİ</div>
+  <p class="eyebrow">ETB231 · Malzeme ve Üretim Yöntemleri I · Güz 2026–2027</p>
+  <h1>Kaynak Erişim Paneli</h1>
+  <p class="sub">Haftalık program ve kaynak listesi tek yerde. Bir haftaya tıklayın, o haftanın kaynakları aşağıda filtrelensin.</p>
+</header>
+
+<div class="rule-box">
+  <div class="rule-item a">
+    <b>Akademik</b>
+    <p>Hakemli dergi, konferans bildirisi, akademik yayınevi kitabı. Kuralın çekirdeği.</p>
+  </div>
+  <div class="rule-item r">
+    <b>Resmi</b>
+    <p>Devlet kurumu, AB kurumu, tanınmış standart kuruluşu — resmi birincil metin. Pazarlama sayfası değil.</p>
+  </div>
+  <div class="rule-item v">
+    <b>Vaka</b>
+    <p>Şirket/haber kaynağı — yalnızca "X oldu/olmadı" örneği olarak. Teknik gerçeğin kanıtı olarak kullanılmaz.</p>
+  </div>
+</div>
+
+<div class="finds">
+  <div class="find">
+    <span class="tag">Erişim durumu — 1</span>
+    <h3>ACM Digital Library tamamen açık</h3>
+    <p>1 Ocak 2026'dan itibaren ücretsiz. Giaccardi & Karana (2015) abonelik gerektirmiyor.</p>
+  </div>
+  <div class="find">
+    <span class="tag">Erişim durumu — 2</span>
+    <h3>EKUAL ulusal lisansı aktif</h3>
+    <p>Wiley ve Springer Nature anlaşmaları yürürlükte. GTÜ üyedir.</p>
+  </div>
+  <div class="find pol">
+    <span class="tag">Dönem takvimi</span>
+    <h3>14 hafta, gerçek tarihlerle eşlendi</h3>
+    <p>21 Eylül–21 Aralık 2026, tüm pazartesiler. Hiçbir resmi tatil pazartesiye denk gelmiyor.</p>
+  </div>
+</div>
+
+<div class="schedule">
+  <p class="kicker">Ders akışı</p>
+  <h2>Haftalık Program</h2>
+  <p class="note">Konu ve kısa kazanım. Bir satıra tıklayınca aşağıdaki kaynak listesi o haftaya filtrelenir; tekrar tıklayınca filtre kalkar.</p>
+  <table class="sched-table">
+    <thead>
+      <tr>
+        <th style="width:110px">Hafta</th>
+        <th>Konu</th>
+        <th class="hide-sm">Kazanım</th>
+      </tr>
+    </thead>
+    <tbody id="schedBody"></tbody>
+  </table>
+</div>
+
+<div class="controls">
+  <div class="row">
+    <span class="lbl">Tür</span>
+    <button class="f kA" data-k="k" data-v="akademik" aria-pressed="false">Akademik</button>
+    <button class="f kR" data-k="k" data-v="resmi"    aria-pressed="false">Resmi</button>
+    <button class="f kV" data-k="k" data-v="vaka"     aria-pressed="false">Vaka</button>
+  </div>
+  <div class="row">
+    <span class="lbl">Erişim</span>
+    <button class="f acik"      data-k="s" data-v="acik"      aria-pressed="false">Açık · ücretsiz</button>
+    <button class="f ekual"     data-k="s" data-v="ekual"     aria-pressed="false">EKUAL / kütüphane</button>
+    <button class="f satin"     data-k="s" data-v="satin"     aria-pressed="false">Satın alma</button>
+    <button class="f standart"  data-k="s" data-v="standart"  aria-pressed="false">Ücretli standart</button>
+  </div>
+  <div class="row">
+    <span class="lbl">Hafta</span>
+    <span id="wk"></span>
+  </div>
+  <div class="row">
+    <span class="lbl">Ara</span>
+    <input id="q" type="search" placeholder="yazar, başlık, kurum…" autocomplete="off">
+  </div>
+  <div class="count" id="count"></div>
+</div>
+
+<div class="list" id="list"></div>
+
+<div class="tools">
+  <p class="kicker">Çalışma araçları</p>
+  <h2>Araçlar — kaynak değil</h2>
+  <p class="note">Bunlar çalışma aracıdır; atıf kaynağı olarak kullanılmaz. Materiom bir reçete platformu, Granta bir yazılım, Materials Project bir veri altyapısıdır — hiçbiri hakemli yayın değil. (Materials Project'in akademik karşılığı — Jain vd. 2013 — ana listede, W13 altında yer alıyor.)</p>
+  <div class="tool-grid">
+    <div class="tool">
+      <h3>Materiom Commons</h3>
+      <p>Biyo-esaslı malzeme reçeteleri. W13 (biyo-esaslı derinlemesine) için pratik araç.</p>
+      <a href="https://www.materiom.org/solutions/commons" target="_blank" rel="noopener">materiom.org/solutions/commons</a>
+    </div>
+    <div class="tool">
+      <h3>Ansys Granta EduPack</h3>
+      <p>Özellik haritası ve seçim yazılımı. Kurumsal lisans gerekir — GTÜ üzerinden sorgulanmalı.</p>
+      <a href="https://www.ansys.com/products/materials/granta-edupack" target="_blank" rel="noopener">ansys.com/products/materials/granta-edupack</a>
+    </div>
+    <div class="tool">
+      <h3>Materials Project (platform)</h3>
+      <p>Kristal yapı veri tabanı, ücretsiz kayıtla. Akademik atıf için Jain vd. (2013) kullanılır.</p>
+      <a href="https://materialsproject.org/" target="_blank" rel="noopener">materialsproject.org</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p><b>Erişim yolları.</b> Kampüs ağı veya GTÜ VPN, abonelikli içeriğin çoğunu açar. Açılmayan bir makale için sırayla: yazarın kurumsal deposu · Unpaywall veya OpenAlex · kütüphaneler arası ödünç (ILL) · yazara doğrudan e-posta.</p>
+  <div class="src-line"><span><b>KAYNAK</b><i>ETB231 İzlencesi, 2026–2027 Güz</i></span><span>ETB231 · Kaynak Paneli</span></div>
+</footer>
+
+</div>
+
+<script>
+const S={acik:"Açık",ekual:"EKUAL",satin:"Satın",standart:"Standart"};
+const K={akademik:"Akademik",resmi:"Resmi",vaka:"Vaka"};
+
+const SCHED=[
+  {w:"W1 · 21 Eyl",topic:"Oryantasyon",kaz:"İçerik yok — izlence, değerlendirme, portfolyo brifingi"},
+  {w:"W2 · 28 Eyl",topic:"Genel Malzeme Tanışması",kaz:"Aileler + dört düzey — yalnızca teorik"},
+  {w:"W3 · 5 Eki",topic:"Ahşap",kaz:"Anizotropi, nem, panel türleri"},
+  {w:"W4 · 12 Eki",topic:"Cam",kaz:"Kırılgan malzeme mantığı, Weibull, temperleme"},
+  {w:"W5 · 19 Eki",topic:"Seramik",kaz:"Pişme çekmesi, geleneksel/teknik seramik"},
+  {w:"W6 · 26 Eki",topic:"Metaller I (Demir Esaslı)",kaz:"Paslanmaz 304/316, korozyon"},
+  {w:"W7 · 2 Kas",topic:"Metaller II + Teknik Gezi",kaz:"Alüminyum, süreç izleri + cam fabrikası gezisi"},
+  {w:"W8 · 9 Kas",topic:"Polimerler I",kaz:"Zincir yapısı, katkı maddeleri"},
+  {w:"W9 · 16 Kas",topic:"Polimerler II",kaz:"Ticari/mühendislik plastikleri"},
+  {w:"W10 · 23 Kas",topic:"Ara Sınav",kaz:""},
+  {w:"W11 · 30 Kas",topic:"Kâğıt/Karton + PPWR + Yeni Malzemeler",kaz:"Oluklu mukavva, PPWR, yeni malzeme taraması"},
+  {w:"W12 · 7 Ara",topic:"Lifli Malzemeler",kaz:"Karışım kuralı, vitrimer kompozitler"},
+  {w:"W13 · 14 Ara",topic:"Biyo-esaslı (derinlemesine) + MDD",kaz:"TRL disiplini, MDD, dört düzeyin tekrarı"},
+  {w:"W14 · 21 Ara",topic:"Seçim/Sürdürülebilirlik",kaz:"LCA, mevzuat takvimi"}
+];
+
+const D=[
+{w:"ÇEKİRDEK",t:"Materials and Design: The Art and Science of Material Selection in Product Design, 3. baskı",a:"Ashby, M. F. & Johnson, K.",s:"satin",k:"akademik",r:"Dersin ana kitabı. Elsevier akademik yayınevi. Tüm dönem boyunca.",u:"https://shop.elsevier.com/books/materials-and-design/ashby/978-0-08-098205-2"},
+{w:"ÇEKİRDEK",t:"Materials Science and Engineering: An Introduction, 10. baskı",a:"Callister, W. D. & Rethwisch, D. G.",s:"satin",k:"akademik",r:"Teknik taban.",u:"https://www.wiley.com/en-us/Materials%2BScience%2Band%2BEngineering%3A%2BAn%2BIntroduction%2C%2B10th%2BEdition-p-9781119405498"},
+{w:"ÇEKİRDEK",t:"Materials Selection in Mechanical Design, 6. baskı",a:"Ashby, M. F.",s:"satin",k:"akademik",r:"W14'ün seçim metodolojisi. Elsevier akademik yayınevi.",u:"https://shop.elsevier.com/books/materials-selection-in-mechanical-design/ashby/978-0-443-16028-8"},
+{w:"ÇEKİRDEK",t:"Manufacturing: Design, Science and Engineering of How Things Are Made, 2. baskı (2026)",a:"Tempelman, E. & Shercliff, H.",s:"satin",k:"akademik",r:"Üç düzey ayrımı: fizikselde mümkün / sanayi pratiğinde mümkün / üreticinin yapabildiği.",u:"https://shop.elsevier.com/books/manufacturing/tempelman/978-0-443-33203-6"},
+{w:"ÇEKİRDEK",t:"Manufacturing and Design: Understanding the Principles of How Things Are Made",a:"Tempelman, E., Shercliff, H. & Ninaber van Eyben, B.",s:"satin",k:"akademik",r:"1. baskı, aynı yazar grubu.",u:"https://www.educate.elsevier.com/book/details/9780080999227"},
+{w:"ÇEKİRDEK",t:"Manufacturing Engineering and Technology, 8. baskı",a:"Kalpakjian, S. & Schmid, S. R.",s:"satin",k:"akademik",r:"Süreç izi ve üretim rotası öğretimi için akademik ders kitabı. Pearson.",u:"https://www.pearson.com/en-us/subject-catalog/p/manufacturing-engineering-and-technology/P200000003222"},
+{w:"ÇEKİRDEK",t:"Materials Experience: Fundamentals of Materials and Design",a:"Karana, E., Pedgley, O. & Rognoli, V. (Ed.)",s:"satin",k:"akademik",r:"Deneyimsel katmanın temel referansı.",u:"https://shop.elsevier.com/books/materials-experience/karana/978-0-08-099359-1"},
+{w:"ÇEKİRDEK",t:"Materials Experience 2: Expanding Territories of Materials and Design",a:"Pedgley, O., Rognoli, V. & Karana, E. (Ed.)",s:"satin",k:"akademik",r:"Gelişen malzemeler, malzeme yaratımı, yüzey. W11 ve W13 için de arka plan.",u:"https://shop.elsevier.com/books/materials-experience-2/pedgley/978-0-12-819244-3"},
+{w:"ÇEKİRDEK",t:"Light Alloys: Metallurgy of the Light Metals, 5. baskı",a:"Polmear, I., StJohn, D., Nie, J.-F. & Qian, M.",s:"satin",k:"akademik",r:"Al, Mg, Ti için özellik–mikroyapı–üretim ilişkisi. W7 (Metaller II).",u:"https://shop.elsevier.com/books/light-alloys/polmear/978-0-08-099431-4"},
+{w:"ÇEKİRDEK",t:"Materials Science of Polymers for Engineers",a:"Osswald, T. A. & Menges, G.",s:"satin",k:"akademik",r:"W8–W9'un ana teknik kaynağı.",u:"https://www.hanserpublications.com/Materials-Science-of-Polymers-for-Engineers/978-1-56990-514-2"},
+{w:"ÇEKİRDEK",t:"Ceramic Materials: Science and Engineering, 2. baskı",a:"Carter, C. B. & Norton, M. G.",s:"ekual",k:"akademik",r:"W5 (Seramik) ana teknik kaynağı.",u:"https://doi.org/10.1007/978-1-4614-3523-5"},
+{w:"ÇEKİRDEK",t:"An Introduction to Composite Materials",a:"Hull, D. & Clyne, T. W.",s:"ekual",k:"akademik",r:"W12 (Lifli malzemeler).",u:"https://www.cambridge.org/highereducation/books/an-introduction-to-composite-materials/402C0AAFF04754C676E22D2B1F9080DB"},
+{w:"ÇEKİRDEK",t:"Principles of Composite Material Mechanics, 4. baskı",a:"Gibson, R. F.",s:"ekual",k:"akademik",r:"Voigt/Reuss sınırları. Taylor & Francis.",u:"https://www.taylorfrancis.com/books/mono/10.1201/b19626/principles-composite-material-mechanics-ronald-gibson"},
+{w:"ÇEKİRDEK",t:"Handbook of Technical Textiles, Cilt 1, 2. baskı",a:"Horrocks, A. R. & Anand, S. C.",s:"satin",k:"akademik",r:"Lif, iplik, dokuma, örme, nonwoven üretimi. W12.",u:"https://shop.elsevier.com/books/handbook-of-technical-textiles/horrocks/978-1-78242-458-1"},
+
+{w:"W2 · 28 Eyl",t:"A Synopsis of Materials and Manufacturing Expertise for Trainee Industrial Designers",a:"Pedgley, O. & Norman, E. (2007), E&PDE",s:"acik",k:"akademik",r:"★ Genel malzeme tanışması haftasının zorunlu okuması. Design Society konferans bildirisi, doğrudan PDF.",u:"https://www.designsociety.org/download-publication/28390/A%2Bsynopsis%2Bof%2Bmaterials%2Band%2Bmanufacturing%2Bexpertise%2Bfor%2Btrainee%2Bindustrial%2Bdesigners"},
+{w:"W2 · 28 Eyl",t:"User–Material–Product Interrelationships in Attributing Meanings",a:"Karana, E. & Hekkert, P. (2010), Int. J. of Design 4(3)",s:"acik",k:"akademik",r:"Dört düzeyin teorik anlatımı için. IJDesign tamamen açık erişim.",u:"https://www.ijdesign.org/index.php/IJDesign/article/view/635"},
+{w:"W2 · 28 Eyl",t:"Foundations of Materials Experience: An Approach for HCI",a:"Giaccardi, E. & Karana (2015), CHI '15",s:"acik",k:"akademik",r:"★ Dört düzeyin kaynak metni. ACM Digital Library 2026'dan beri tamamen açık.",u:"https://dl.acm.org/doi/10.1145/2702123.2702337"},
+
+{w:"W3 · 5 Eki",t:"Wood Handbook: Wood as an Engineering Material (2021)",a:"USDA Forest Products Laboratory",s:"acik",k:"resmi",r:"ABD federal hükümeti resmi teknik raporu. Tam kitap PDF.",u:"https://research.fs.usda.gov/fpl/wood-handbook"},
+{w:"W3 · 5 Eki",t:"Bölüm 4 — Moisture Relations and Physical Properties of Wood",a:"Glass, S. & Zelinka, S. (2021)",s:"acik",k:"resmi",r:"★ Zorunlu okuma. EMC, lif doygunluk noktası.",u:"https://research.fs.usda.gov/treesearch/62243"},
+{w:"W3 · 5 Eki",t:"Bölüm 5 — Mechanical Properties of Wood",a:"Senalik, C. A. & Farber, B. (2021)",s:"acik",k:"resmi",r:"Anizotropi ve yöne bağlı dayanım.",u:"https://research.fs.usda.gov/treesearch/62244"},
+{w:"W3 · 5 Eki",t:"Bölüm 12 — Mechanical Properties of Wood-Based Composite Materials",a:"Cai, Z., Senalik, C. A. & Ross, R. (2021)",s:"acik",k:"resmi",r:"MDF, kontrplak, OSB karşılaştırması.",u:"https://research.fs.usda.gov/treesearch/62260"},
+{w:"W3 · 5 Eki",t:"Room-temperature Phosphorescent Transparent Wood",a:"Piao vd. (2025), Nature Communications",s:"acik",k:"akademik",r:"Şeffaf ahşap cephe örneği — akademik makale. Tam açık erişim.",u:"https://www.nature.com/articles/s41467-025-55990-z"},
+
+{w:"W4 · 12 Eki",t:"Chemical Strengthening of Glass: Lessons Learned and Yet to Be Learned",a:"Varshneya, A. K. (2010), Int. J. of Applied Glass Science 1(2)",s:"ekual",k:"akademik",r:"★ Zorunlu okuma. İyon değişimi ve kimyasal temperlemenin akademik derlemesi. Wiley — EKUAL.",u:"https://ceramics.onlinelibrary.wiley.com/doi/10.1111/j.2041-1294.2010.00010.x"},
+{w:"W4 · 12 Eki",t:"Foldable / Ultra-thin Glass — ticari uygulama",a:"Corning",s:"acik",k:"vaka",r:"Ticari cephe örneği (TRL 8–9). Teknik içerik değil — pazarda mevcut ürün vakası.",u:"https://www.corning.com/worldwide/en/innovation/materials-science/glass/Foldable-Glass.html"},
+{w:"W4 · 12 Eki",w2:"W7 · 2 Kas",t:"A Corning Perspective on the Future of Technical Glass in Our Evolving World",a:"Kohli, J. T., Hubert, M., Youngman, R. E. & Morse, D. L. (2022), Int. J. of Applied Glass Science 13(3)",s:"acik",k:"akademik",r:"Fusion draw, iyon değişimiyle kimyasal temperleme, sürdürülebilirlik. W4'e genel bakış; W7 cam fabrikası gezisi için süreç arka planı. Tam açık erişim.",u:"https://doi.org/10.1111/ijag.16560"},
+{w:"W4 · 12 Eki",w2:"W5 · 19 Eki",t:"Fracture Statistics of Ceramics – Weibull Statistics and Deviations from Weibull Statistics",a:"Danzer, R., Supancic, P., Pascual, J. & Lube, T. (2007), Engineering Fracture Mechanics 74(18), 2919–2932",s:"ekual",k:"akademik",r:"Weibull'un geçerlilik sınırları; kırılgan dayanımı bir olasılık dağılımı olarak okumanın eleştirel tamamlayıcısı. W5 için de geçerli.",u:"https://doi.org/10.1016/j.engfracmech.2006.05.028"},
+{w:"W4 · 12 Eki",t:"The Effect of Size and Stress State on the Strength of Architectural Glass. Experiments versus Theory",a:"Pisano, G., Bonati, A. & Royer-Carfagni, G. (2021), Construction and Building Materials 283, 122635",s:"ekual",k:"akademik",r:"'Büyük parça daha zayıftır' iddiasının deneysel sınaması; büyük numunelerde beklenmeyen sapma bildiriyor.",u:"https://doi.org/10.1016/j.conbuildmat.2021.122635"},
+{w:"W4 · 12 Eki",t:"History of Strengthening Glass",a:"Corning",s:"acik",k:"vaka",r:"Kimyasal temperlemenin tarihi. Şirket kaynağı — yalnızca 'X oldu' örneği.",u:"https://www.corning.com/worldwide/en/innovation/materials-science/glass/history-strengthening-glass.html"},
+{w:"W5 · 19 Eki",t:"Modelling the Influence of Manufacturing Process Variables on Dimensional Changes of Porcelain Tiles",a:"Santos-Barbosa, D., Hotza, D., Boix, J., Mallol, G. & Deus, A. (2013), Advances in Materials Science and Engineering",s:"acik",k:"akademik",r:"★ Presleme, kuruma ve pişme çekmelerinin çarpımıyla nihai boyut (R4 = (100−S2)(100−S3)(100−S4)·10⁻⁶·R1) — çekme hesabı alıştırmasına doğrudan oturur. Tam açık erişim.",u:"https://doi.org/10.1155/2013/142343"},
+{w:"W5 · 19 Eki",t:"Current Understanding and Future Research Directions at the Onset of the Next Century of Sintering Science and Technology",a:"Bordia, R. K., Kang, S.-J. L. & Olevsky, E. A. (2017), J. of the American Ceramic Society",s:"ekual",k:"akademik",r:"Sinterlemenin temel ilkeleri.",u:"https://doi.org/10.1111/jace.14919"},
+{w:"W5 · 19 Eki",t:"Advanced Ceramic Components: Materials, Fabrication, and Applications",a:"Otitoju, T. A., Okoye, P. U., Chen, G., Li, Y., Okoye, M. O. & Li, S. (2020), J. of Industrial and Engineering Chemistry 85, 34–65",s:"ekual",k:"akademik",r:"Geleneksel/teknik seramik ayrımı için genel derleme.",u:"https://doi.org/10.1016/j.jiec.2020.02.002"},
+
+{w:"W6 · 26 Eki",t:"Pitting Corrosion Behaviour of Austenitic Stainless Steels – Combining Effects of Mn and Mo Additions",a:"Pardo, A. vd. (2008), Corrosion Science 50",s:"ekual",k:"akademik",r:"★ Zorunlu okuma. Mn ve Mo'nun birlikte etkisi; 304/316 tartışmasının deneysel zemini.",u:"https://doi.org/10.1016/j.corsci.2008.04.005"},
+{w:"W6 · 26 Eki",t:"Pitting Corrosion Resistance of Mn-Alloyed Austenitic Stainless Steels",a:"Pulkkinen, H. vd. (2013), steel research international 85(3)",s:"ekual",k:"akademik",r:"PREN, Cr–Ni–Mo–Mn etkisi ve MnS kalıntılarının çukurcuk başlatıcı rolü. Wiley — EKUAL.",u:"https://doi.org/10.1002/srin.201200304"},
+{w:"W6 · 26 Eki",t:"Decarbonisation and Hydrogen Integration of Steel Industries: Recent Development, Challenges and Technoeconomic Analysis",a:"Shahabuddin, M., Brooks, G. & Rhamdhani, M. A. (2023), J. of Cleaner Production 395",s:"ekual",k:"akademik",r:"Hidrojen DRI + EAF rotası; Stegra vakasının akademik karşılığı ve TRL/ölçeklenme eleştirisi için.",u:"https://doi.org/10.1016/j.jclepro.2023.136391"},
+{w:"W6 · 26 Eki",t:"Global Green Hydrogen-based Steel Opportunities Surrounding High Quality Renewable Energy and Iron Ore Deposits",a:"Devlin, A., Kossen, J., Goldie-Jones, H. & Yang, A. (2023), Nature Communications 14, 2578",s:"acik",k:"akademik",r:"Yeşil çeliğin rekabet edebileceği konumlar ve kaynak kısıtları. Tam açık erişim.",u:"https://doi.org/10.1038/s41467-023-38123-2"},
+{w:"W6 · 26 Eki",t:"Boden yeşil çelik tesisi",a:"Stegra",s:"acik",k:"vaka",r:"Şirket beyanı. TRL ve ölçeklenme eleştirisinin vakası.",u:"https://stegra.com/green-steel"},
+{w:"W6 · 26 Eki",t:"ESPR 2025–2030 Çalışma Planı ve uygulama",a:"Avrupa Komisyonu",s:"acik",k:"resmi",r:"Demir-çelik 2026, tekstil/lastik/alüminyum 2027, mobilya 2028.",u:"https://green-forum.ec.europa.eu/implementing-ecodesign-sustainable-products-regulation_en"},
+
+{w:"W7 · 2 Kas",t:"Alüminyum geri dönüşüm enerjisi iddiası (%95)",a:"International Aluminium Institute",s:"acik",k:"vaka",r:"Sektör iddiası — sistem sınırı belirtilmemiş bir istatistik olarak eleştirel incelenir.",u:"https://international-aluminium.org/landing/aluminium-recycling-saves-95-of-the-energy-needed-for-primary-aluminium-production/"},
+{w:"W7 · 2 Kas",t:"Geri dönüştürülmüş içerik iddiası ve izlenebilirlik",a:"Aluminium Stewardship Initiative",s:"acik",k:"vaka",r:"Sektör standardı iddiası — tüketici sonrası mı üretim öncesi mi sorusunu sorduran vaka.",u:"https://aluminium-stewardship.org/recycled-content-and-the-asi-standards-laying-out-asis-approach"},
+{w:"W7 · 2 Kas",t:"How Much Sorting Is Required for a Circular Low Carbon Aluminum Economy?",a:"Pedneault, J., Majeau-Bettez, G. & Margni, M. (2023), J. of Industrial Ecology 27(3)",s:"ekual",k:"akademik",r:"★ Dövme alaşımın döküm alaşıma düşük değerli dönüşümü ve eser element birikimi — IAI ve ASI vakalarının eleştirisi için. Wiley — EKUAL.",u:"https://doi.org/10.1111/jiec.13388"},
+{w:"W7 · 2 Kas",w2:"W14 · 21 Ara",t:"Evaluation of Life Cycle Assessment Recycling Allocation Methods",a:"Johnson, J. X., McMillan, C. A. & Keoleian, G. A. (2013), J. of Industrial Ecology 17(5)",s:"ekual",k:"akademik",r:"Geri dönüştürülmüş içerik ile geri dönüşüm kredisi yaklaşımlarının alüminyum için farklı sonuç vermesi. W14 için de geçerli.",u:"https://doi.org/10.1111/jiec.12050"},
+{w:"W7 · 2 Kas",w2:"W14 · 21 Ara",t:"What Do We Know About Metal Recycling Rates?",a:"Graedel, T. E. vd. (2011), J. of Industrial Ecology 15(3)",s:"ekual",k:"akademik",r:"Metaller için gerçek geri dönüşüm oranları ve sınırları. W14 için de geçerli.",u:"https://doi.org/10.1111/j.1530-9290.2011.00342.x"},
+{w:"W7 · 2 Kas",t:"Glass Substrates for Liquid Crystal Displays",a:"Ellison, A. & Cornejo, I. A. (2010), Int. J. of Applied Glass Science 1(1)",s:"ekual",k:"akademik",r:"Cam fabrikası gezisi arka planı: slot-draw'dan fusion-draw'a geçiş; süreç ürünün geometrisini ve yüzeyini belirler. Wiley — EKUAL.",u:"https://doi.org/10.1111/j.2041-1294.2010.00009.x"},
+{w:"W7 · 2 Kas",t:"Continuous Forming of Ultrathin Glass by Float Process",a:"Shou, P., Hongcan, R., Xin, C. & Yong, Y. (2019), Int. J. of Applied Glass Science 10(3)",s:"ekual",k:"akademik",r:"Float sürecinin kalay banyosu, kenar merdaneleri ve kalınlık kontrolü.",u:"https://doi.org/10.1111/ijag.13132"},
+{w:"W7 · 2 Kas",t:"Şişecam yapay zekâ destekli karbon azaltma projesi",a:"ÇEVKO (haber) / Şişecam",s:"acik",k:"vaka",r:"Gezi tesisiyle ilişkili olabilecek yerel vaka.",u:"https://www.cevko.org.tr/index.php/haber/sisecamdan-yapay-zeka-teknolojisiyle-karbon-salimini-azaltacak-proje"},
+
+{w:"W8 · 9 Kas",t:"Biobased, Biodegradable and Compostable Plastics",a:"Avrupa Komisyonu",s:"acik",k:"resmi",r:"Üç kavramın resmi ayrımı.",u:"https://environment.ec.europa.eu/topics/plastics/biobased-biodegradable-and-compostable-plastics_en"},
+{w:"W8 · 9 Kas",t:"Functional Chemical Additives for Polymer Processing, Durability, and Circularity: Mechanistic Design Principles and Structure–Performance Relationships",a:"Kim, D. K., Jin, Y. & Yoo, Y. (2026), J. of Applied Polymer Science 143(34)",s:"ekual",k:"akademik",r:"★ 'Geri dönüştürülebilirlik reçine kodunda değil katkı listesindedir' iddiasının akademik karşılığı. Wiley — EKUAL.",u:"https://doi.org/10.1002/app.70992"},
+{w:"W8 · 9 Kas",t:"Additive Inclusion in Plastic Life Cycle Assessments Part I: Review of Mechanical Recycling Studies",a:"Logan, H., Astrup, T. F. & Damgaard, A. (2024), J. of Industrial Ecology 28(6)",s:"acik",k:"akademik",r:"Katkıların plastik LCA'larında çoğu zaman eksik kaldığını gösterir; W8 ile W14'ü bağlar. Tam açık erişim.",u:"https://doi.org/10.1111/jiec.13542"},
+{w:"W8 · 9 Kas",t:"Quality Concepts for the Improved Use of Recycled Polymeric Materials: A Review",a:"Vilaplana, F. & Karlsson, S. (2008), Macromolecular Materials and Engineering 293(4)",s:"ekual",k:"akademik",r:"Geri dönüştürülmüş polimerde kalite, katkı ve bozunma ilişkisi.",u:"https://doi.org/10.1002/mame.200700393"},
+{w:"W8 · 9 Kas",t:"Polyolefin Innovations toward Circularity and Sustainable Alternatives",a:"Westlie, A. H. vd. (2022), Macromolecular Rapid Communications 43(24)",s:"ekual",k:"akademik",r:"PE/PP zincir mimarisi ile geri dönüşüm ilişkisi.",u:"https://doi.org/10.1002/marc.202200492"},
+{w:"W8 · 9 Kas",t:"Stress-strain Behavior and Corresponding Crystalline Structures of Four Types of Polyethylene under a Wide Range of Strain Rates",a:"Zhu, T., Li, X., Zhao, X., Zhang, X., Lu, Y. & Zhang, L. (2022), Polymer Testing 106, 107460",s:"ekual",k:"akademik",r:"LDPE, LLDPE, MDPE, HDPE: dallanma derecesi ile akma dayanımı ve kristallik. 'Aynı monomer, farklı mimari, farklı ürün'.",u:"https://doi.org/10.1016/j.polymertesting.2021.107460"},
+{w:"W8 · 9 Kas",t:"Directive 2011/8/EU — biberonlarda bisfenol A kısıtı",a:"Avrupa Komisyonu (EUR-Lex)",s:"acik",k:"resmi",r:"Polikarbonat–BPA vakası: monomer/katkı göçü bir tasarım kısıtıdır.",u:"https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX%3A32011L0008"},
+
+{w:"W9 · 16 Kas",t:"Recent Advances in Enzyme Engineering for Improved PET Recycling",a:"Groseclose vd. (2025), Communications Materials",s:"acik",k:"akademik",r:"★ Zorunlu okuma. Nature portföyünde tam açık erişim.",u:"https://www.nature.com/articles/s43246-025-00919-8"},
+{w:"W9 · 16 Kas",t:"Standardization Guidelines and Future Trends for PET Hydrolase Research",a:"Wei vd. (2025), Nature Communications",s:"acik",k:"akademik",r:"Yöntem farkı nedeniyle karşılaştırılamama sorunu.",u:"https://www.nature.com/articles/s41467-025-60016-9"},
+{w:"W9 · 16 Kas",t:"Longlaville tesisi takvim değişikliği",a:"CARBIOS",s:"acik",k:"vaka",r:"2026'dan 2028'e kaydı. Ölçeklenme takvimi neden değişir vakası.",u:"https://www.carbios.com/en/pet-biorecycling-technology/"},
+{w:"W9 · 16 Kas",t:"REACH kısıtlama listesi ve PFAS süreci",a:"ECHA CHEM",s:"acik",k:"resmi",r:"AB ajansı, resmi düzenleyici kurum.",u:"https://chem.echa.europa.eu/obligation-lists/restrictionList"},
+{w:"W9 · 16 Kas",t:"Geri dönüştürülmüş PET tuğla projesi iptali",a:"Lego (basın açıklaması, 2023)",s:"acik",k:"vaka",r:"Geri dönüştürülmüş her zaman daha iyidir varsayımının karşı vakası.",u:""},
+
+{w:"W11 · 30 Kas",t:"Edge Crush Testing Methods and Box Compression Modeling",a:"TAPPI Journal (2022)",s:"acik",k:"resmi",r:"Numune hazırlığı ECT sonucunu etkiliyor. TAPPI Journal — kurumsal tanıtım sayfası değil.",u:"https://www.tappi.org/publications-standards/tappi-journal/home/2022/aug/edge-crush-testing-methods-and-box-compression-modeling-tappi-journal-august-2022/"},
+{w:"W11 · 30 Kas",t:"TAPPI T 843 — Fluted Edge Crush",a:"TAPPI",s:"standart",k:"resmi",r:"Resmi test metodu standardı.",u:"https://www.tappi.org/product_pull/09/dec/__05/fluted-edge-crush-of-corrugating-medium-rigid-support-metho-test-method-t-843-om-14/"},
+{w:"W11 · 30 Kas",t:"Regulation (EU) 2025/40 — PPWR tam metin",a:"EUR-Lex",s:"acik",k:"resmi",r:"Birincil mevzuat metni.",u:"https://eur-lex.europa.eu/eli/reg/2025/40/oj/eng"},
+{w:"W11 · 30 Kas",t:"PPWR — Sıkça Sorulan Sorular (2026)",a:"Avrupa Komisyonu",s:"acik",k:"resmi",r:"★ Zorunlu okuma.",u:"https://environment.ec.europa.eu/publications/faq-packaging-and-packaging-waste-regulation-ppwr_en"},
+{w:"W11 · 30 Kas",t:"Biopolymer/Nanocomposite Coated Paper-Based Barrier Packaging",a:"Adak vd. (2025), Carbohydrate Polymers",s:"ekual",k:"akademik",r:"Kâğıt ambalajda bariyer oluşturmanın karmaşıklığı.",u:"https://www.sciencedirect.com/science/article/pii/S0144861725007490"},
+{w:"W11 · 30 Kas",t:"Functional Barrier and Recyclable Packaging via MFC Bilayer Coatings",a:"Upadhyay vd. (2025), Carbohydrate Polymers",s:"ekual",k:"akademik",r:"Bariyer performansı ile geri dönüştürülebilirlik gerilimi.",u:"https://www.sciencedirect.com/science/article/pii/S014486172500373X"},
+{w:"W11 · 30 Kas",t:"Revolutionizing the Future of Smart Materials: A Review of 4D Printing, Design, Optimization, and Machine Learning Integration",a:"Azher, K., Nazir, A., Farooq, M. U., ul Haq, M. R., Ali, Z., Dalaq, A. S., Abubakar, A. A., Hussain, S., Syed, M. N., Ullah, A., Laghari, R. A. & Khan, S. (2025), Advanced Materials Technologies",s:"ekual",k:"akademik",r:"★ 'Alternatif/yeni/teknolojik malzemeler' genel bakışı için eklendi.",u:"https://advanced.onlinelibrary.wiley.com/doi/10.1002/admt.202401369"},
+
+{w:"W12 · 7 Ara",t:"Next-generation Vitrimer Composites for Future Mobility",a:"Kang vd. (2025), European Polymer Journal",s:"ekual",k:"akademik",r:"Vitrimer kompozitlerin güncel durumu.",u:"https://www.sciencedirect.com/science/article/pii/S0014305725002551"},
+{w:"W12 · 7 Ara",t:"Industrial-grade CFRP Epoxy Vitrimer Composites: Reprocessing, Repairing, Recycling",a:"Fang vd. (2025)",s:"ekual",k:"akademik",r:"Laboratuvardan endüstriyel CFRP sürecine taşınma ihtimali.",u:"https://www.sciencedirect.com/science/article/pii/S2542504825000363"},
+{w:"W12 · 7 Ara",t:"Satılmamış giyim ve ayakkabı imha yasağı (19 Temmuz 2026)",a:"Avrupa Komisyonu",s:"acik",k:"resmi",r:"ESPR Madde 25, büyük işletmeler için yürürlükte.",u:"https://environment.ec.europa.eu/news/new-eu-rules-stop-destruction-unsold-clothes-and-shoes-2026-02-09_en"},
+{w:"W12 · 7 Ara",t:"EU Strategy for Sustainable and Circular Textiles",a:"Avrupa Komisyonu",s:"acik",k:"resmi",r:"Tekstil ESPR delege tasarrufu Q4 2027 hedefli.",u:"https://environment.ec.europa.eu/strategy/textiles-strategy_en"},
+
+{w:"W13 · 14 Ara",t:"Material Driven Design (MDD): A Method to Design for Material Experiences",a:"Karana, E., Barati, B., Rognoli, V. & Zeeuw van der Laan, A. (2015), IJDesign 9(2)",s:"acik",k:"akademik",r:"★ Zorunlu okuma, tam makale. Tamamen açık erişim.",u:"https://www.ijdesign.org/index.php/IJDesign/article/view/1965"},
+{w:"W13 · 14 Ara",t:"When the Material Grows: Designing (with) Mycelium-based Materials",a:"Karana, E., Blauwhoff, D., Hultink, E.-J. & Camere, S. (2018), IJDesign 12(2)",s:"acik",k:"akademik",r:"Miselyumda büyüme, zaman, belirsizlik ve kabul problemi.",u:"https://www.ijdesign.org/index.php/ijdesign/article/view/2918"},
+{w:"W13 · 14 Ara",t:"MycoWorks × Hermès Sylvania — ticari üretim",a:"MycoWorks (basın açıklaması)",s:"acik",k:"vaka",r:"TRL kartı egzersizinin merkez vakası.",u:""},
+{w:"W13 · 14 Ara",t:"Mylo üretiminin durdurulması (2023)",a:"Bolt Threads (basın)",s:"acik",k:"vaka",r:"Aynı egzersizin karşıt vakası.",u:""},
+{w:"W13 · 14 Ara",t:"Scaling Deep Learning for Materials Discovery (GNoME)",a:"Merchant vd. (2023), Nature",s:"ekual",k:"akademik",r:"2,2 milyon öngörü, 381 bin kararlı aday.",u:"https://www.nature.com/articles/s41586-023-06735-9"},
+{w:"W13 · 14 Ara",t:"A Generative Model for Inorganic Materials Design (MatterGen)",a:"Zeni vd. (2025), Nature",s:"ekual",k:"akademik",r:"Hedeflenen özelliklere göre kristal yapı üretimi.",u:"https://www.nature.com/articles/s41586-025-08628-5"},
+{w:"W13 · 14 Ara",t:"An Autonomous Laboratory for the Accelerated Synthesis of Inorganic Materials",a:"Szymanski vd. (2023), Nature",s:"ekual",k:"akademik",r:"A-Lab. Öngörüden senteze geçiş ve doğrulama sorunu.",u:"https://www.nature.com/articles/s41586-023-06734-w"},
+{w:"W13 · 14 Ara",t:"Commentary: The Materials Project — A Materials Genome Approach to Accelerating Materials Innovation",a:"Jain, A. vd. (2013), APL Materials 1(1)",s:"acik",k:"akademik",r:"Materials Project'in kuruluş makalesi — AI malzeme keşfi tartışmasının veri altyapısı zemini.",u:"https://doi.org/10.1063/1.4812323"},
+
+{w:"W14 · 21 Ara",t:"ISO 14040:2006 — LCA: Principles and Framework",a:"ISO",s:"standart",k:"resmi",r:"Ücretli. Kavram özeti verilir.",u:"https://www.iso.org/standard/37456.html"},
+{w:"W14 · 21 Ara",t:"Circular Economy — politika çerçevesi",a:"Avrupa Komisyonu",s:"acik",k:"resmi",r:"%7,2 istatistiği akademik değil (Circularity Gap raporu); akademik zemin için Haas vd. (2015) — 2005 için %6.",u:"https://environment.ec.europa.eu/strategy/circular-economy_en"},
+{w:"W14 · 21 Ara",t:"How Circular Is the Global Economy? An Assessment of Material Flows, Waste Production, and Recycling in the European Union and the World in 2005",a:"Haas, W., Krausmann, F., Wiedenhofer, D. & Heinz, M. (2015), J. of Industrial Ecology 19(5)",s:"acik",k:"akademik",r:"★ Küresel işlenen malzemenin yalnızca %6'sı geri dönüşüm (2005) — döngüsellik tartışmasının akademik zemini. Tam açık erişim.",u:"https://doi.org/10.1111/jiec.12244"},
+{w:"W14 · 21 Ara",t:"Life Cycle Assessment of Packaging Systems: A Meta-analysis to Evaluate the Root of Consistencies and Discrepancies",a:"Bher, A. & Auras, R. (2024), J. of Cleaner Production 476",s:"ekual",k:"akademik",r:"Aynı ambalaj sistemleri için çelişen LCA sonuçlarının kökeni: fonksiyonel birim, sistem sınırı, geri dönüşüm modellemesi.",u:"https://doi.org/10.1016/j.jclepro.2024.143785"},
+{w:"W14 · 21 Ara",t:"Comparison of Different Methodological Choices in Functional Unit Selection and Results Implication When Assessing Food-packaging Environmental Impact",a:"Frigerio, V., Casson, A. & Limbo, S. (2023), J. of Cleaner Production 396, 136527",s:"ekual",k:"akademik",r:"İki farklı fonksiyonel birim tanımının aynı ambalajlarda farklı 'en iyi'yi verdiğini gösterir.",u:"https://doi.org/10.1016/j.jclepro.2023.136527"},
+{w:"W14 · 21 Ara",t:"Life Cycle Assessment of Supermarket Carrier Bags (Report SC030148)",a:"UK Environment Agency (2011)",s:"acik",k:"vaka",r:"Poşet türü başına 'kaç kez yeniden kullanılmalı' eşiği; fonksiyonel birim tartışmasının klasik vakası.",u:"https://cityclerk.lacity.org/onlinedocs/2011/11-1531_PC_06-11-12.pdf"},
+
+{w:"TAKİP",t:"Materials & Design",a:"Elsevier",s:"ekual",k:"akademik",r:"Bu hafta gündemde için birincil akademik cephe.",u:"https://www.sciencedirect.com/journal/materials-and-design"},
+{w:"TAKİP",t:"Nature Communications",a:"Springer Nature",s:"acik",k:"akademik",r:"Tamamen açık erişim.",u:"https://www.nature.com/ncomms/"},
+{w:"TAKİP",t:"Communications Materials",a:"Springer Nature",s:"acik",k:"akademik",r:"Tamamen açık erişim, malzeme odaklı.",u:"https://www.nature.com/commsmat/"},
+{w:"TAKİP",t:"Nature Materials",a:"Springer Nature",s:"ekual",k:"akademik",r:"Abonelik. Özetler ücretsiz.",u:"https://www.nature.com/nmat/"},
+{w:"TAKİP",t:"International Journal of Design",a:"IJDesign",s:"acik",k:"akademik",r:"Tamamen açık erişim.",u:"https://www.ijdesign.org/"},
+{w:"TAKİP",t:"Journal of Cleaner Production",a:"Elsevier",s:"ekual",k:"akademik",r:"Sürdürülebilirlik ve LCA cephesi.",u:"https://www.sciencedirect.com/journal/journal-of-cleaner-production"},
+{w:"TAKİP",t:"European Polymer Journal",a:"Elsevier",s:"ekual",k:"akademik",r:"Vitrimer ve polimer cephesi.",u:"https://www.sciencedirect.com/journal/european-polymer-journal"},
+{w:"TAKİP",t:"ECHA — Avrupa Kimyasallar Ajansı",a:"ECHA",s:"acik",k:"resmi",r:"PFAS ve REACH için tek doğru kaynak.",u:"https://echa.europa.eu/"},
+{w:"TAKİP",t:"EUR-Lex",a:"AB",s:"acik",k:"resmi",r:"Tüm AB mevzuatının tam metni.",u:"https://eur-lex.europa.eu/"},
+{w:"TAKİP",t:"USDA Forest Products Laboratory",a:"USDA",s:"acik",k:"resmi",r:"Ahşap ve ahşap esaslı malzemelerde resmi kaynak.",u:"https://research.fs.usda.gov/fpl"}
+];
+
+let fS=new Set(), fW=new Set(), fK=new Set(), fQ="";
+
+const wkKey=w=>w==='ÇEKİRDEK'?0:(w==='TAKİP'?99:parseInt(w.slice(1)));
+const weeks=[...new Set(D.flatMap(d=>[d.w,d.w2].filter(Boolean)))].sort((a,b)=>wkKey(a)-wkKey(b));
+const wkBox=document.getElementById("wk");
+weeks.forEach(w=>{
+  const b=document.createElement("button");
+  b.className="f";b.dataset.k="w";b.dataset.v=w;b.textContent=w;
+  b.setAttribute("aria-pressed","false");
+  wkBox.appendChild(b);
+});
+
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button.f");
+  if(!b)return;
+  const on=b.getAttribute("aria-pressed")==="true";
+  b.setAttribute("aria-pressed",String(!on));
+  const set=b.dataset.k==="s"?fS:(b.dataset.k==="k"?fK:fW);
+  on?set.delete(b.dataset.v):set.add(b.dataset.v);
+  render();
+});
+document.getElementById("q").addEventListener("input",e=>{
+  fQ=e.target.value.trim().toLocaleLowerCase("tr");render();
+});
+
+/* ── haftalık program tablosu render + tıklayınca filtrele ── */
+const schedBody=document.getElementById("schedBody");
+schedBody.innerHTML = SCHED.map(s=>`
+  <tr class="sched-row" data-w="${s.w}">
+    <td class="wk">${s.w}</td>
+    <td class="topic">${s.topic}</td>
+    <td class="kazanim hide-sm">${s.kaz}</td>
+  </tr>`).join("");
+
+schedBody.addEventListener("click", e=>{
+  const row=e.target.closest("tr.sched-row");
+  if(!row)return;
+  const w=row.dataset.w;
+  const hasSource = D.some(d=>d.w===w||d.w2===w);
+  document.querySelectorAll(".sched-row").forEach(r=>r.classList.remove("active"));
+  if(!hasSource){
+    // bu haftaya ait kaynak yok — yalnızca bilgi ver, filtre uygulama
+    row.classList.add("active");
+    fW.clear();
+    render();
+    document.getElementById("list").innerHTML =
+      `<p class="empty">${w} için ayrı bir kaynak yok.</p>`;
+    document.getElementById("count").textContent = "";
+    return;
+  }
+  const btn=[...wkBox.children].find(b=>b.dataset.v===w);
+  const already = fW.has(w) && fW.size===1;
+  fW.clear();
+  document.querySelectorAll('#wk button').forEach(b=>b.setAttribute("aria-pressed","false"));
+  if(!already){
+    fW.add(w);
+    if(btn) btn.setAttribute("aria-pressed","true");
+    row.classList.add("active");
+    document.querySelector(".controls").scrollIntoView({behavior:"smooth",block:"start"});
+  }
+  render();
+});
+
+function render(){
+  const out=D.filter(d=>{
+    if(fS.size&&!fS.has(d.s))return false;
+    if(fK.size&&!fK.has(d.k))return false;
+    if(fW.size&&!fW.has(d.w)&&!(d.w2&&fW.has(d.w2)))return false;
+    if(fQ){
+      const hay=(d.t+" "+d.a+" "+d.r+" "+d.w+" "+(d.w2||"")).toLocaleLowerCase("tr");
+      if(!hay.includes(fQ))return false;
+    }
+    return true;
+  });
+  const L=document.getElementById("list");
+  L.innerHTML = out.length ? out.map(d=>`
+    <div class="item">
+      <div class="spine"><b>${d.w}</b>${d.w2?"<b>+ "+d.w2.split(" · ")[0]+"</b>":""}</div>
+      <div class="meat">
+        <div class="head">
+          <h3 class="title">${d.t}</h3>
+          <span class="kchip ${d.k}">${K[d.k]}</span>
+          <span class="chip ${d.s}">${S[d.s]}</span>
+        </div>
+        <p class="by">${d.a}</p>
+        <p class="route">${d.r}</p>
+        ${d.u ? `<a class="go" href="${d.u}" target="_blank" rel="noopener">${d.u}</a>` : ``}
+      </div>
+    </div>`).join("") : `<p class="empty">Bu filtrelerle eşleşen kaynak yok.</p>`;
+
+  const n={acik:0,ekual:0,satin:0,standart:0}, m={akademik:0,resmi:0,vaka:0};
+  out.forEach(d=>{n[d.s]++;m[d.k]++});
+  document.getElementById("count").textContent =
+    `${out.length} kaynak · ${m.akademik} akademik · ${m.resmi} resmi · ${m.vaka} vaka  —  ${n.acik} açık · ${n.ekual} EKUAL/kütüphane · ${n.satin} satın alma · ${n.standart} ücretli standart`;
+}
+render();
+</script>
+</body>
+</html>
