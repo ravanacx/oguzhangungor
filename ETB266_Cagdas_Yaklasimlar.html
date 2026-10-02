@@ -66,6 +66,7 @@ h1{font-family:var(--disp);font-weight:700;font-size:clamp(28px,4.6vw,40px);lett
 .sched-row td{padding:10px 12px;vertical-align:top;font-size:14px}
 .sched-row .wk{font-family:var(--mono);font-size:12px;font-weight:700;white-space:nowrap;color:var(--forest)}
 .sched-row .topic{font-weight:700;color:var(--ink)}
+.sched-row .snote{display:block;margin-top:4px;font-family:var(--mono);font-size:11px;font-weight:400;color:#9A3412}
 .sched-row .kazanim{color:var(--ink);font-size:13.5px}
 
 /* ── filtre çubuğu ── */
@@ -119,7 +120,7 @@ a.go:hover{background:var(--butter);color:var(--forest);border-color:var(--fores
 /* ── ders hakkında ── */
 .about{margin-top:30px}
 .about h2{font-family:var(--disp);font-weight:700;font-size:24px;color:var(--forest);margin:0 0 6px;line-height:1.2}
-.about p:not(.kicker){font-size:15px;margin:0 0 10px;max-width:78ch}
+.about p:not(.kicker):not(.facts){font-size:15px;margin:0 0 10px;max-width:78ch}
 .about ol{margin:0 0 10px;padding-left:22px;font-size:14.5px;max-width:78ch}
 .about ol li{margin-bottom:4px}
 .about .facts{font-family:var(--mono);font-size:11.5px;color:var(--mute);margin:8px 0 0}
@@ -168,16 +169,6 @@ footer b{color:var(--forest)}
 </header>
 
 <div class="about">
-  <p class="kicker">Ders hakkında</p>
-  <h2>Amaç ve öğrenme çıktıları</h2>
-  <p>Ders, 1980 sonrası — ağırlıkla son 25 yılın — tasarım düşüncesini şekillendiren yaklaşımları, doğdukları toplumsal-teknolojik koşullarla birlikte ele alır. Her yaklaşım üç soruyla sınanır: <b>Hangi soruna yanıt olarak çıktı? Hangi varsayımlara dayanıyor ve bu varsayımlar nerede zorlanıyor? Türkiye bağlamında ve benim pratiğimde ne anlama geliyor?</b> Amaç akım ezberi değil, mezuniyet projesine taşınabilecek eleştirel bir konumlanmadır.</p>
-  <ol>
-    <li>Çağdaş yaklaşımları <b>kavramsal çerçeveleri, temel metinleri ve temsilci pratikleriyle</b> tanımlar ve birbirinden ayırt eder.</li>
-    <li>Bir tasarım ürününü, projesini veya söylemini <b>seçtiği kuramsal çerçeveyle çözümler</b> ve akademik yazım kurallarına uygun biçimde metinleştirir.</li>
-    <li>Yaklaşımların güçlü yönlerini ve eleştirilerini <b>kanıta dayalı</b> biçimde tartışır; karşıt konumu adil temsil eder.</li>
-    <li>Küresel tartışmaları <b>Türkiye ve yerel üretim-zanaat bağlamıyla</b> ilişkilendirir.</li>
-    <li>Kendi tasarım anlayışını çağdaş yaklaşımlar haritasında konumlandıran <b>özgün bir pozisyon</b> üretir ve savunur.</li>
-  </ol>
   <p class="facts">Lisans 3.–4. sınıf, seçmeli · 3 yerel kredi / 5 AKTS · haftalık 3 saat · Ön koşul: Tasarım Tarihi önerilir, zorunlu değil · Türkçe, okumaların bir bölümü İngilizce · Haftada 40–60 sayfa okuma</p>
 </div>
 
@@ -257,7 +248,7 @@ const SCHED=[
   {"w": "H3 · 7 Eki", "topic": "Tasarım odaklı düşünme ve eleştirisi", "kaz": "IDEO ve d.school modeli · design thinking'in şirketleşmesi · yöntemin vaatleri ve sınırları · “DT temelde muhafazakârdır” tartışması"},
   {"w": "H4 · 14 Eki", "topic": "İnsan merkezli tasarım ve katılımcı / ortak tasarım", "kaz": "HCD'nin soykütüğü · “kullanıcı” kavramının eleştirisi: kimi dışarıda bırakır? · İskandinav işyeri demokrasisi geleneği · katılımın araçları ve tuzakları: sözde katılım"},
   {"w": "H5 · 21 Eki", "topic": "Sürdürülebilir tasarım I: ekolojik temeller", "kaz": "Papanek mirası · yaşam döngüsü düşüncesi · beşikten beşiğe ve döngüsel ekonomi · yeşil aklama eleştirisi"},
-  {"w": "H6 · 28 Eki", "topic": "Sürdürülebilir tasarım II: geçiş tasarımı ve sistemik yaklaşımlar", "kaz": "Transition Design (CMU) · sosyo-teknik sistemler ve Çok Katmanlı Perspektif · Manzini ve sosyal inovasyon · tasarımın ölçeği sorunu"},
+  {"w": "H6 · 28 Eki", "note": "28 Ekim Cumhuriyet Bayramı arifesi: öğleden sonra resmî tatil. Bu haftanın ders düzeni ayrıca duyurulacak.", "topic": "Sürdürülebilir tasarım II: geçiş tasarımı ve sistemik yaklaşımlar", "kaz": "Transition Design (CMU) · sosyo-teknik sistemler ve Çok Katmanlı Perspektif · Manzini ve sosyal inovasyon · tasarımın ölçeği sorunu"},
   {"w": "H7 · 4 Kas", "topic": "Spekülatif ve eleştirel tasarım", "kaz": "RCA geleneği · A/B manifestosu · tasarım kurgusu · olası–akla yatkın–tercih edilir gelecekler · SCD'ye yöneltilen sınıfsal ve coğrafi eleştiriler"},
   {"w": "H8 · 11 Kas", "topic": "Sosyal tasarım ve tasarım aktivizmi", "kaz": "Tasarımın %90'ı meselesi · insani tasarım ve eleştirisi · aktivizm ile hizmet arasındaki gerilim · STK–tasarımcı ilişkileri"},
   {"w": "H9 · 18 Kas", "topic": "Tasarım adaleti ve feminist perspektifler", "kaz": "Design Justice Network ilkeleri · normatif beden ve “varsayılan erkek” sorunu · veri ve algoritmalarda önyargı · kesişimsellik"},
@@ -265,7 +256,7 @@ const SCHED=[
   {"w": "H11 · 2 Ara", "topic": "İnsan-ötesi tasarım ve malzeme odaklı yaklaşımlar", "kaz": "Posthümanizm ve tasarım · türlerarası tasarım · malzeme odaklı tasarım (MDD) · biyotasarım ve yaşayan malzemeler"},
   {"w": "H12 · 9 Ara", "topic": "Hesaplamalı dönüş: yapay zekâ ve tasarımcının değişen rolü", "kaz": "Parametrik–üretken tasarım · yapay zekâ ile birlikte tasarlama · otomasyon ve tasarım emeği · telif, özgünlük ve etik"},
   {"w": "H13 · 16 Ara", "topic": "Tasarım kültürleri ve Türkiye'de çağdaş tasarım", "kaz": "Tasarımın söylemsel alanı: bienaller, müzeler, yayınlar · Türkiye'de tasarım politikaları ve kurumsallaşma · yerli tasarım kimliği tartışmaları"},
-  {"w": "H14 · 23 Ara", "topic": "Sentez: pozisyon sunumları", "kaz": ""}
+  {"w": "H14 · 23 Ara", "topic": "Final sunumları", "kaz": ""}
 ];
 
 const D=[
@@ -371,7 +362,7 @@ const schedBody=document.getElementById("schedBody");
 schedBody.innerHTML = SCHED.map(s=>`
   <tr class="sched-row" data-w="${s.w}">
     <td class="wk">${s.w}</td>
-    <td class="topic">${s.topic}</td>
+    <td class="topic">${s.topic}${s.note?`<span class="snote">${s.note}</span>`:""}</td>
     <td class="kazanim hide-sm">${s.kaz||""}</td>
   </tr>`).join("");
 
